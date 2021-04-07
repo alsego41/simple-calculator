@@ -2,7 +2,7 @@ import Boton from './Boton'
 
 const LineBox = props => {
     return (
-        <div>
+        <div className='line-box'>
             <Boton text={props.text1} />
             <Boton text={props.text2} />
             <Boton text={props.text3} />

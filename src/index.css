@@ -11,3 +11,52 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#calc {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  vertical-align: middle;
+}
+
+#main-box {
+  background-color: darkgray;
+  display: inline-block;
+  width: auto;
+  padding: 5px;
+}
+
+.display {
+  background-color: gray;
+  color: white;
+  text-align: right;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+#display-last {
+  padding: 10px 20px;
+}
+
+.line-box {
+  background-color: gray;
+  border-radius: 10px;
+  border: 1px solid white;
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: 1fr;
+}
+
+.boton {
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.boton:hover {
+  background-color: rgb(185, 185, 185);
+  cursor: pointer;
+  transition: 0.5s;
+}
