@@ -2,6 +2,7 @@ import React from 'react'
 // import Boton from './components/Boton'
 import Display from './components/Display'
 import LineBox from './components/LineBox'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <LineBox text1='1' text2='2' text3='3' text4='+' />
         <LineBox text1='0' text2='' text3='.' text4='=' />
       </div>
+      <Footer />
     </div>
   )
 }
