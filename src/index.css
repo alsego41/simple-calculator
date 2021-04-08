@@ -89,6 +89,10 @@ code {
   text-shadow: 0px 0px 5px black;
 }
 
+.noselect {
+  user-select: none;
+}
+
 a {
   color: black;
   text-decoration: none;

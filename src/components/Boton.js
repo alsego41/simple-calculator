@@ -1,6 +1,6 @@
 const Boton = (props) => {
     return (
-        <div className='boton' onClick={props.updDisplay}>
+        <div className='boton noselect' onClick={props.updDisplay}>
             {props.text}
         </div>
     )
