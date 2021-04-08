@@ -21,8 +21,11 @@ function App() {
     )
   }
 
+  const regex = new RegExp('([0-9*/+.-])+')
+
   document.onkeydown = e => {
-    updDisplay(e)
+    if (e.key.match(regex))  
+      updDisplay(e)
   }
 
   return (
