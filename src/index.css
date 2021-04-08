@@ -27,7 +27,6 @@ code {
   padding: 5px;
   margin: 20px;
   border-radius: 8px;
-  /* box-shadow: 1px 3px 10px black; */
 }
 
 .display {
@@ -37,10 +36,6 @@ code {
   padding: 20px ;
   font-size: 22px;
   padding: 20px;
-  /* margin: 3px 10px; */
-  /* border: 1px solid white; */
-  /* box-shadow: 0px 3px 5px black; */
-  /* border-radius: 10px; */
 }
 
 #display-last {
@@ -54,9 +49,6 @@ code {
 }
 
 .line-box {
-  /* background-color: gray; */
-  /* border-radius: 10px; */
-  /* border: 1px solid white; */
   display: grid;
   grid-template-columns: repeat(4, 100px);
   grid-template-rows: 1fr;
@@ -73,10 +65,7 @@ code {
   color: white;
   text-align: center;
   padding: 20px;
-  /* border: 1px solid white; */
-  /* border-radius: 10px; */
   margin: 1px;
-  /* box-shadow: 1px 3px 5px black; */
 }
 
 .boton:hover {
@@ -84,8 +73,6 @@ code {
   cursor: pointer;
   border: 2px solid gray;
   padding: 18px;
-  /* transition: 0.5s; */
-  /* box-shadow: 1px 3px 10px black; */
   text-shadow: 0px 0px 5px black;
 }
 

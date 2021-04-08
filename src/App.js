@@ -78,7 +78,9 @@ function App() {
 
       pos.shift()
     }
-    setPrim(primS)
+    setDisplay(primS)
+    setPrim(display)
+    // setPrim(primS)
   }
 
   const operations = (a, b, op) => {
@@ -105,10 +107,12 @@ function App() {
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
+  const f = new RegExp('([^F])')
 
   document.onkeydown = e => {
-    // console.log(e);
-    if ((e.key.match(regex) && e.key.match('/(F)+/')) || e.key === 'Backspace'){
+    console.log(e);
+    // console.log(!(e.which > 112 && e.which < 123));
+    if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) || e.key === 'Backspace'){
         updDisplay(e)
     }
       // console.log(e);
