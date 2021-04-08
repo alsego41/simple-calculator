@@ -18,6 +18,7 @@ function App() {
       else {
         if (display !== 0)
         {
+          console.log(display);
           let auxdis = display.substring(0, len - 1)  
           setDisplay(auxdis)
         }
@@ -78,7 +79,7 @@ function App() {
 
       pos.shift()
     }
-    setDisplay(primS)
+    setDisplay(primS.toString())
     setPrim(display)
     // setPrim(primS)
   }
@@ -110,7 +111,7 @@ function App() {
   const f = new RegExp('([^F])')
 
   document.onkeydown = e => {
-    console.log(e);
+    // console.log(e);
     // console.log(!(e.which > 112 && e.which < 123));
     if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) || e.key === 'Backspace'){
         updDisplay(e)
