@@ -107,7 +107,8 @@ function App() {
   const regex = new RegExp('([0-9*/+.-])+')
 
   document.onkeydown = e => {
-    if (e.key.match(regex) || e.key === 'Backspace'){
+    // console.log(e);
+    if ((e.key.match(regex) && e.key.match('/(F)+/')) || e.key === 'Backspace'){
         updDisplay(e)
     }
       // console.log(e);
