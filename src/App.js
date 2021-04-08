@@ -8,17 +8,21 @@ import Footer from './components/Footer'
 function App() {
   const [ display, setDisplay ] = useState(0)
   const updDisplay = e => {
-    e.type === 'keydown' ? 
+   if ( e.type === 'keydown') {
     setDisplay(
       display === 0 ? 
         e.key : 
         display + e.key
-    ) :
-    setDisplay(
-      display === 0 ? 
-        e.target.textContent : 
-        display + e.target.textContent
-    )
+    )} else {
+      if (e.target.textContent === 'C') {
+        setDisplay(0)
+      } else
+        setDisplay(
+          display === 0 ? 
+          e.target.textContent : 
+          display + e.target.textContent
+        )
+    }
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
