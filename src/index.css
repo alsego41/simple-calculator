@@ -24,6 +24,10 @@ code {
   vertical-align: middle;
 }
 
+#calc > p {
+  margin-top: 0;
+}
+
 #main-box {
   background-color: rgb(180, 180, 180);
   display: inline-block;
@@ -34,17 +38,20 @@ code {
 }
 
 .display {
+  /* Colors */
   background-color: gray;
   color: white;
-  text-align: right;
+
+  /* Box Model */
   height: var(--box-wh);
   margin: 0 10px;
   font-size: 22px;
-  vertical-align: middle;
+  padding-right: 20px;
+
+  /* Align */
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 20px;
 }
 
 #display-last {
@@ -55,6 +62,7 @@ code {
 
 #display-main {
   margin-top: 2px;
+  margin-bottom: 1px;
 }
 
 .line-box {
@@ -69,16 +77,21 @@ code {
 }
 
 .boton {
+  /* Colors */
   background-color: gray;
-  font-size: 18px;
   color: white;
-  text-align: center;
-  display: grid;
-  place-items: center;
+
+  /* Box Model */
+  font-size: 18px;
   border: 2px solid transparent;
   width: var(--box-wh);
   height: var(--box-wh);
   margin: 1px;
+
+  /* Align */
+  display: grid;
+  text-align: center;
+  place-items: center;
 }
 
 .line-box .boton:first-child {
@@ -92,8 +105,8 @@ code {
 }
 
 .boton:hover {
-  background-color: rgb(185, 185, 185);
   cursor: pointer;
+  background-color: rgb(185, 185, 185);
   border: 2px solid gray;
   text-shadow: 0px 0px 5px black;
 }
