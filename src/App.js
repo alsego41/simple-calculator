@@ -127,7 +127,7 @@ function App() {
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
-  const f = new RegExp('([^F])')
+  // const f = new RegExp('([^F])')
 
   document.onkeydown = e => {
     // console.log(e);
@@ -141,12 +141,17 @@ function App() {
     }
   }
 
+  const copyContent = () => {
+    // console.log('on copycontent');
+    setDisplay(prim)
+  }
+
   return (
     <div id='calc'>
       <h1>A Simple Calculator</h1>
       <p>Now with React!</p>
       <div id='main-box'>
-        <Display lastText={prim} mainText={display} />
+        <Display lastText={prim} mainText={display} copyContent={copyContent} />
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
           updDisplay={updDisplay}  
         />
