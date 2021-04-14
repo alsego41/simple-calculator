@@ -23,7 +23,9 @@ function App() {
           setDisplay(auxdis)
         }
       }
-     } 
+     } else if (e.key === 'Delete'){
+       setDisplay(0)
+     }
      else {
        interpretarSimboloClick(e.key)
        setDisplay(
@@ -130,7 +132,7 @@ function App() {
   document.onkeydown = e => {
     // console.log(e);
     // console.log(!(e.which > 112 && e.which < 123));
-    if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) || e.key === 'Backspace'){
+    if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) || e.key === 'Backspace' || e.key === 'Delete'){
         updDisplay(e)
     }
       // console.log(e);
