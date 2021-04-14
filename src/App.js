@@ -18,26 +18,30 @@ function App() {
       else {
         if (display !== 0)
         {
-          console.log(display);
+          // console.log(display);
           let auxdis = display.substring(0, len - 1)  
           setDisplay(auxdis)
         }
       }
      } 
      else {
+       interpretarSimboloClick(e.key)
        setDisplay(
          display === 0 ? 
            e.key : 
            display + e.key
        )
      }
+    //  e type click
     } else {
+      console.log(e.target);
         if (e.target.textContent === 'C') {
           setDisplay(0)
         } else if (e.target.textContent === '=') {
           calculation()
         }
         else {
+          interpretarSimboloClick(e.target.textContent)
           setDisplay(
             display === 0 ? 
             e.target.textContent : 
@@ -105,6 +109,19 @@ function App() {
         break;
     }
     return result
+  }
+
+  const interpretarSimboloClick = (simbolo) => {
+    console.log(`simbolo ${simbolo}`);
+    const simbolosRaros = ['+','−','×','÷','x²','√x','+∕−']
+    const operadores = ['+','-','*','/','sqr','sqrt','signo']
+    let whichOp = simbolosRaros.findIndex(simboloRaro => simboloRaro === simbolo)
+    let op = ' '
+    if (whichOp >= 0){
+      op = operadores[whichOp]
+      console.log(`op ${op}`);
+    }
+    return op
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
