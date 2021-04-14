@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+:root {
+  --box-width: 100px;
+}
+
 #calc {
   display: flex;
   align-items: center;
@@ -50,7 +54,7 @@ code {
 
 .line-box {
   display: grid;
-  grid-template-columns: repeat(4, 100px);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
   margin: 0 10px;
 }
@@ -64,15 +68,30 @@ code {
   font-size: 18px;
   color: white;
   text-align: center;
-  padding: 20px;
+  display: grid;
+  place-items: center;
+  /* padding: 20px; */
+  border: 2px solid transparent;
+  width: var(--box-width);
+  height: var(--box-width);
   margin: 1px;
+}
+
+.line-box .boton:first-child {
+  margin-left: 0;
+  width: calc(var(--box-width) + 1);
+}
+
+.line-box .boton:last-child {
+  margin-right: 0;
+  width: calc(var(--box-width) + 1);
 }
 
 .boton:hover {
   background-color: rgb(185, 185, 185);
   cursor: pointer;
   border: 2px solid gray;
-  padding: 18px;
+  /* padding: 18px; */
   text-shadow: 0px 0px 5px black;
 }
 
