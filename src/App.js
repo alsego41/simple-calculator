@@ -30,13 +30,13 @@ function App() {
       let tkd = transformarKeyDown(e.key)
       if (tkd !== ' '){
         setDisplay(
-          display === 0 ? 
+          display === 0 || display === 'Syntax error' ? 
             tkd : 
             display + tkd
         )
       } else
        setDisplay(
-         display === 0 ? 
+         display === 0 || display === 'Syntax error' ? 
            e.key : 
            display + e.key
        )
@@ -52,7 +52,7 @@ function App() {
         else {
           interpretarSimboloClick(e.target.textContent)
           setDisplay(
-            display === 0 ? 
+            display === 0 || display === 'Syntax error' ? 
             e.target.textContent : 
             display + e.target.textContent
           )
@@ -92,8 +92,13 @@ function App() {
 
       pos.shift()
     }
-    setDisplay(primS.toString())
-    setPrim(display)
+    if (isNaN(primS)){
+      setDisplay('Syntax error')
+      setPrim(display)
+    } else{
+      setDisplay(primS.toString())
+      setPrim(display)
+    }
     // setPrim(primS)
   }
 
@@ -155,7 +160,7 @@ function App() {
         updDisplay(e)
     }
       // console.log(e);
-    else if (e.key === 'Enter') {
+    else if (e.key === 'Enter' && !(display === 'Syntax error')) {
       calculation()
     }
   }
