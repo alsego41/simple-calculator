@@ -27,7 +27,14 @@ function App() {
        setDisplay(0)
      }
      else {
-       interpretarSimboloClick(e.key)
+      let tkd = transformarKeyDown(e.key)
+      if (tkd !== ' '){
+        setDisplay(
+          display === 0 ? 
+            tkd : 
+            display + tkd
+        )
+      } else
        setDisplay(
          display === 0 ? 
            e.key : 
@@ -122,6 +129,18 @@ function App() {
     if (whichOp >= 0){
       op = operadores[whichOp]
       console.log(`op ${op}`);
+    }
+    return op
+  }
+
+  const transformarKeyDown = (simbolo) => {
+    const simbolosRaros = ['+','−','×','÷']
+    const operadores = ['+','-','*','/']
+    let whichOp = operadores.findIndex(op => op === simbolo)
+    let op = ' '
+    if (whichOp >= 0){
+      op = simbolosRaros[whichOp]
+      console.log(`sr ${op}`);
     }
     return op
   }
