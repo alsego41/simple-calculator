@@ -82,7 +82,7 @@ code {
   color: white;
 
   /* Box Model */
-  font-size: 18px;
+  font-size: 20px;
   border: 2px solid transparent;
   width: var(--box-wh);
   height: var(--box-wh);

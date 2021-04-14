@@ -128,19 +128,19 @@ function App() {
       <p>Now with React!</p>
       <div id='main-box'>
         <Display lastText={prim} mainText={display} />
-        <LineBox text1='^' text2='&radic;' text3='x&sup2;' text4='/' 
+        <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='7' text2='8' text3='9' text4='*' 
+        <LineBox text1='7' text2='8' text3='9' text4='&#215;' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='4' text2='5' text3='6' text4='-' 
+        <LineBox text1='4' text2='5' text3='6' text4='&#8722;' 
           updDisplay={updDisplay}  
         />
         <LineBox text1='1' text2='2' text3='3' text4='&#43;' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='0' text2='.' text3='C' text4='&#61;' 
+        <LineBox text1='0' text2='.' text3='&#43;&#x2215;&#8722;' text4='&#61;' 
           updDisplay={updDisplay}  
         />
       </div>
