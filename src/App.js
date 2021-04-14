@@ -47,10 +47,11 @@ function App() {
         if (e.target.textContent === 'C') {
           setDisplay(0)
         } else if (e.target.textContent === '=') {
-          calculation()
+          if (display !== 'Syntax error')
+            calculation()
         }
         else {
-          interpretarSimboloClick(e.target.textContent)
+          interpretarSimbolo(e.target.textContent)
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
             e.target.textContent : 
@@ -125,7 +126,7 @@ function App() {
     return result
   }
 
-  const interpretarSimboloClick = (simbolo) => {
+  const interpretarSimbolo = (simbolo) => {
     console.log(`simbolo ${simbolo}`);
     const simbolosRaros = ['+','−','×','÷','x²','√x','+∕−']
     const operadores = ['+','-','*','/','sqr','sqrt','signo']
@@ -145,7 +146,7 @@ function App() {
     let op = ' '
     if (whichOp >= 0){
       op = simbolosRaros[whichOp]
-      console.log(`sr ${op}`);
+      // console.log(`sr ${op}`);
     }
     return op
   }
@@ -156,7 +157,9 @@ function App() {
   document.onkeydown = e => {
     // console.log(e);
     // console.log(!(e.which > 112 && e.which < 123));
-    if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) || e.key === 'Backspace' || e.key === 'Delete'){
+    if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) 
+    || e.key === 'Backspace' 
+    || e.key === 'Delete'){
         updDisplay(e)
     }
       // console.log(e);
