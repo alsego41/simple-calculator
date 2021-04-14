@@ -51,11 +51,12 @@ function App() {
             calculation()
         }
         else {
-          interpretarSimbolo(e.target.textContent)
+          // interpretarSimbolo(e.target.textContent)s
+          // console.log(interpretarSimbolo(e.target.textContent));
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
-            e.target.textContent : 
-            display + e.target.textContent
+            interpretarSimbolo(e.target.textContent) : 
+            display + interpretarSimbolo(e.target.textContent)
           )
         }
     }
@@ -103,6 +104,10 @@ function App() {
     // setPrim(primS)
   }
 
+  const calcRevamped = () => {
+    
+  }
+
   const operations = (a, b, op) => {
     a = Number(a)
     b = Number(b)
@@ -128,15 +133,16 @@ function App() {
 
   const interpretarSimbolo = (simbolo) => {
     console.log(`simbolo ${simbolo}`);
-    const simbolosRaros = ['+','−','×','÷','x²','√x','+∕−']
-    const operadores = ['+','-','*','/','sqr','sqrt','signo']
+    const simbolosRaros = ['x²','√x']
+    const operadores = ['²','√']
     let whichOp = simbolosRaros.findIndex(simboloRaro => simboloRaro === simbolo)
     let op = ' '
     if (whichOp >= 0){
       op = operadores[whichOp]
       console.log(`op ${op}`);
+      return op
     }
-    return op
+    return simbolo
   }
 
   const transformarKeyDown = (simbolo) => {
