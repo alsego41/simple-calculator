@@ -18,7 +18,6 @@ function App() {
       else {
         if (display !== 0)
         {
-          // console.log(display);
           let auxdis = display.substring(0, len - 1)  
           setDisplay(auxdis)
         }
@@ -41,7 +40,6 @@ function App() {
            display + e.key
        )
      }
-    //  e type click
     } else {
       console.log(e.target);
         if (e.target.textContent === 'C') {
@@ -49,12 +47,9 @@ function App() {
         } else if (e.target.textContent === '=') {
           if (display !== 'Syntax error'){
             calcRevamped()
-            // calculation()
           }
         }
         else {
-          // interpretarSimbolo(e.target.textContent)s
-          // console.log(interpretarSimbolo(e.target.textContent));
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
             interpretarSimbolo(e.target.textContent) : 
@@ -64,98 +59,85 @@ function App() {
     }
   }
 
-  const calculation = () => {
-    const operadores = new RegExp('([/*+-])', 'g')
-    let newDisplay = display
-    let match
-    let pos = []
-
-    while ((match = operadores.exec(newDisplay)) != null){
-      // console.log(match);
-      // console.log(match.index);
-      pos.push(match.index)
-    }
-    console.log(pos);
-    let primS = Number(newDisplay.substring(0, pos[0]))
-    while (pos.length > 0){
-      // console.log('---------');
-      // console.log(`quedan ${pos.length}`);
-      // console.log(pos[0]);
-      // console.log(newDisplay.charAt(pos[0]));
-
-
-      // console.log(primS);
-
-      let segS = Number(newDisplay.substring(pos[0] + 1, pos[1]))
-
-      // console.log(segS);
-
-      // console.log((operations(primS, segS, newDisplay.charAt(pos[0]))));
-      primS = operations(primS, segS, newDisplay.charAt(pos[0]))
-      // console.log(primS);
-
-      pos.shift()
-    }
-    if (isNaN(primS)){
-      setDisplay('Syntax error')
-      setPrim(display)
-    } else{
-      setDisplay(primS.toString())
-      setPrim(display)
-    }
-    // setPrim(primS)
-  }
-
   const calcRevamped = () => {
-    let cadena = display.toString()
-    console.log(cadena);
-    let op = new RegExp('([^0-9.])+', 'g')
-    let separados = cadena.split(op).filter(sub => sub !== '')
-    console.log(separados)
-    // let reg = new RegExp('([√²+×÷−])+','g')
-    // console.log(separados.);
-    const indexesOf = (arr, item) => arr.reduce((acc, v, i) => (v === item && acc.push(i), acc),[]);
-    console.log(indexesOf(separados, "√"))
-    procesar(indexesOf(separados, "√"), '√', separados)
+    let arreglo = separar()
+    console.log(arreglo);
+    setPrim(display)
+    setDisplay(procesar(arreglo))
   }
 
-  const procesar = (indices, tipo, cadena) => {
-    if (indices.length > 0){
-      for (let i = 0; i < indices.length; i++){
-        switch (tipo) {
-          case '√':
-            // agregar clausula -> si no tiene en cadena[ii-1] un operador entonces debe explotar
-            console.log(Math.sqrt(cadena[indices[i]+1]))
-            break;
-        
-          default:
-            break;
+  const separar = () => {
+    let cadena = display.toString()
+    let lista = ['²','√','×','÷','+','−']
+    let arreglo = []
+    let flag = false
+    let acc = ''
+    for (let i=0; i < cadena.length; i++){
+      for (let j = 0; j < lista.length; j++){
+        if (cadena[i] === lista[j]){
+          arreglo.push(acc)
+          arreglo.push(cadena[i])
+          flag = true
+          acc = ''
+        }
+      }
+      if (flag === false){
+        acc += cadena[i]
+      }
+      flag = false
+    }
+    arreglo.push(acc)
+    arreglo = arreglo.filter(sub => sub !== '')
+    return arreglo
+  }
+
+  const procesar = (cadena) => {
+    let op = ['²','√','×','÷','+','−']
+    for (let i = 0; i < op.length; i++){
+      for (let j = 0; j < cadena.length; j++){
+        cadena = transformarCadena(op[i], cadena[j], j, cadena)
+        if (cadena.includes(NaN)){
+          return 'Syntax error'
         }
       }
     }
+    return cadena
   }
 
-  const operations = (a, b, op) => {
-    a = Number(a)
-    b = Number(b)
-    let result = 0
-    switch (op) {
-      case '+':
-        result = a + b
-        break;
-      case '-':
-        result = a - b
-        break;
-      case '*':
-        result = a * b
-        break;
-      case '/':
-        result = a / b
-        break;
-      default:
-        break;
+  const transformarCadena = (op, valor, vPos, cadena) => {
+    let res
+    if (op === valor){
+      switch (op) {
+        case '²':
+          res = Math.pow(Number(cadena[vPos - 1]), 2)
+          cadena.splice(vPos - 1, 2, res)
+          break;
+        case '√':
+          res = Math.sqrt(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
+          break
+        case '×':
+          res = Number(cadena[vPos - 1]) * Number(cadena[vPos + 1])
+          cadena.splice(vPos - 1, 3, res)
+          break
+        case '÷':
+          res = Number(cadena[vPos - 1]) / Number(cadena[vPos + 1])
+          cadena.splice(vPos - 1, 3, res)
+          break
+        case '+':
+          res = Number(cadena[vPos - 1]) + Number(cadena[vPos + 1])
+          cadena.splice(vPos - 1, 3, res)
+          break
+        case '−':
+          res = Number(cadena[vPos - 1]) - Number(cadena[vPos + 1])
+          cadena.splice(vPos - 1, 3, res)
+          break
+        default:
+          break;
+      }
+      // console.log(cadena);
     }
-    return result
+    return cadena
   }
 
   const interpretarSimbolo = (simbolo) => {
@@ -185,7 +167,6 @@ function App() {
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
-  // const f = new RegExp('([^F])')
 
   document.onkeydown = e => {
     // console.log(e);
@@ -203,7 +184,6 @@ function App() {
   }
 
   const copyContent = () => {
-    // console.log('on copycontent');
     setDisplay(prim)
   }
 
