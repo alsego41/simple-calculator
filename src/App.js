@@ -47,8 +47,10 @@ function App() {
         if (e.target.textContent === 'C') {
           setDisplay(0)
         } else if (e.target.textContent === '=') {
-          if (display !== 'Syntax error')
-            calculation()
+          if (display !== 'Syntax error'){
+            calcRevamped()
+            // calculation()
+          }
         }
         else {
           // interpretarSimbolo(e.target.textContent)s
@@ -105,7 +107,32 @@ function App() {
   }
 
   const calcRevamped = () => {
-    
+    let cadena = display.toString()
+    console.log(cadena);
+    let op = new RegExp('([^0-9.])+', 'g')
+    let separados = cadena.split(op).filter(sub => sub !== '')
+    console.log(separados)
+    // let reg = new RegExp('([√²+×÷−])+','g')
+    // console.log(separados.);
+    const indexesOf = (arr, item) => arr.reduce((acc, v, i) => (v === item && acc.push(i), acc),[]);
+    console.log(indexesOf(separados, "√"))
+    procesar(indexesOf(separados, "√"), '√', separados)
+  }
+
+  const procesar = (indices, tipo, cadena) => {
+    if (indices.length > 0){
+      for (let i = 0; i < indices.length; i++){
+        switch (tipo) {
+          case '√':
+            // agregar clausula -> si no tiene en cadena[ii-1] un operador entonces debe explotar
+            console.log(Math.sqrt(cadena[indices[i]+1]))
+            break;
+        
+          default:
+            break;
+        }
+      }
+    }
   }
 
   const operations = (a, b, op) => {
@@ -132,14 +159,14 @@ function App() {
   }
 
   const interpretarSimbolo = (simbolo) => {
-    console.log(`simbolo ${simbolo}`);
+    // console.log(`simbolo ${simbolo}`);
     const simbolosRaros = ['x²','√x']
     const operadores = ['²','√']
     let whichOp = simbolosRaros.findIndex(simboloRaro => simboloRaro === simbolo)
     let op = ' '
     if (whichOp >= 0){
       op = operadores[whichOp]
-      console.log(`op ${op}`);
+      // console.log(`op ${op}`);
       return op
     }
     return simbolo
@@ -170,7 +197,8 @@ function App() {
     }
       // console.log(e);
     else if (e.key === 'Enter' && !(display === 'Syntax error')) {
-      calculation()
+      calcRevamped()
+      // calculation()
     }
   }
 
