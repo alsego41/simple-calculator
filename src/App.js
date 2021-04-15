@@ -41,7 +41,7 @@ function App() {
        )
      }
     } else {
-      console.log(e.target);
+      // console.log(e.target);
         if (e.target.textContent === 'C') {
           setDisplay(0)
         } else if (e.target.textContent === '=') {
@@ -61,7 +61,7 @@ function App() {
 
   const calcRevamped = () => {
     let arreglo = separar()
-    console.log(arreglo);
+    // console.log(arreglo);
     setPrim(display)
     setDisplay(procesar(arreglo))
   }
