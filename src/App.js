@@ -40,22 +40,36 @@ function App() {
            display + e.key
        )
      }
-    } else {
-      // console.log(e.target);
-        if (e.target.textContent === 'C') {
-          setDisplay(0)
-        } else if (e.target.textContent === '=') {
-          if (display !== 'Syntax error'){
-            calcRevamped()
-          }
+    } 
+    else {
+      // console.log(e.target.textContent);
+      if (e.target.textContent === 'C') {
+        setDisplay(0)
+      } 
+      else if (e.target.textContent === '=') {
+        if (display !== 'Syntax error'){
+          calcRevamped()
+        }
+      }
+      else if (e.target.textContent === '+∕-'){
+        let aux = display.toString()
+        // console.log(display);
+        // console.log(aux);
+        // console.log(aux[0]);
+        if (aux[0] === '-'){
+          setDisplay(aux.slice(1))
         }
         else {
-          setDisplay(
-            display === 0 || display === 'Syntax error' ? 
-            interpretarSimbolo(e.target.textContent) : 
-            display + interpretarSimbolo(e.target.textContent)
-          )
+          setDisplay('-' + display)
         }
+      }
+      else {
+        setDisplay(
+          display === 0 || display === 'Syntax error' ? 
+          interpretarSimbolo(e.target.textContent) : 
+          display + interpretarSimbolo(e.target.textContent)
+        )
+      }
     }
   }
 
@@ -68,7 +82,7 @@ function App() {
 
   const separar = () => {
     let cadena = display.toString()
-    let lista = ['²','√','×','÷','+','−']
+    let lista = ['²','√','×','÷','+','-']
     let arreglo = []
     let flag = false
     let acc = ''
@@ -92,7 +106,7 @@ function App() {
   }
 
   const procesar = (cadena) => {
-    let op = ['²','√','×','÷','+','−']
+    let op = ['²','√','×','÷','-','+']
     for (let i = 0; i < op.length; i++){
       for (let j = 0; j < cadena.length; j++){
         // console.log('procesar');
@@ -136,7 +150,7 @@ function App() {
           res = Number(cadena[vPos - 1]) + Number(cadena[vPos + 1])
           cadena.splice(vPos - 1, 3, res)
           break
-        case '−':
+        case '-':
           // console.log(cadena[vPos - 1]);
           if (cadena[vPos - 1] === undefined){
             // console.log('hola');
@@ -172,7 +186,7 @@ function App() {
   }
 
   const transformarKeyDown = (simbolo) => {
-    const simbolosRaros = ['+','−','×','÷']
+    const simbolosRaros = ['+','-','×','÷']
     const operadores = ['+','-','*','/']
     let whichOp = operadores.findIndex(op => op === simbolo)
     let op = ' '
@@ -216,13 +230,13 @@ function App() {
         <LineBox text1='7' text2='8' text3='9' text4='&#215;' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='4' text2='5' text3='6' text4='&#8722;' 
+        <LineBox text1='4' text2='5' text3='6' text4='-' 
           updDisplay={updDisplay}  
         />
         <LineBox text1='1' text2='2' text3='3' text4='&#43;' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='0' text2='.' text3='&#43;&#x2215;&#8722;' text4='&#61;' 
+        <LineBox text1='0' text2='.' text3='&#43;&#x2215;-' text4='&#61;' 
           updDisplay={updDisplay}  
         />
       </div>
