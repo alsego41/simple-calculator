@@ -95,6 +95,8 @@ function App() {
     let op = ['²','√','×','÷','+','−']
     for (let i = 0; i < op.length; i++){
       for (let j = 0; j < cadena.length; j++){
+        // console.log('procesar');
+        // console.log(cadena);
         cadena = transformarCadena(op[i], cadena[j], j, cadena)
         if (cadena.includes(NaN)){
           return 'Syntax error'
@@ -109,8 +111,14 @@ function App() {
     if (op === valor){
       switch (op) {
         case '²':
-          res = Math.pow(Number(cadena[vPos - 1]), 2)
-          cadena.splice(vPos - 1, 2, res)
+          // console.log(`op ${op} -> ${cadena[vPos - 1]} `);
+          if (op !== cadena[vPos - 1]){
+            res = Math.pow(Number(cadena[vPos - 1]), 2)
+            cadena.splice(vPos - 1, 2, res)
+          } else {
+            cadena.splice(vPos - 1, 2, NaN)
+            return cadena
+          }
           break;
         case '√':
           res = Math.sqrt(Number(cadena[vPos + 1]))
@@ -129,8 +137,17 @@ function App() {
           cadena.splice(vPos - 1, 3, res)
           break
         case '−':
-          res = Number(cadena[vPos - 1]) - Number(cadena[vPos + 1])
-          cadena.splice(vPos - 1, 3, res)
+          // console.log(cadena[vPos - 1]);
+          if (cadena[vPos - 1] === undefined){
+            // console.log('hola');
+            res = Number(0) - Number(cadena[vPos + 1])
+            cadena.splice(vPos, 2, res)
+          } else{
+            res = Number(cadena[vPos - 1]) - Number(cadena[vPos + 1])
+            cadena.splice(vPos - 1, 3, res)
+          }
+          // console.log(res);
+          // cadena.splice(vPos - 1, 3, res)
           break
         default:
           break;
