@@ -43,10 +43,11 @@ code {
   color: white;
 
   /* Box Model */
-  height: var(--box-wh);
+  height: calc(var(--box-wh)*1.5);
+  width: calc((var(--box-wh) * 4)+ 24px);
   margin: 0 10px;
   font-size: 22px;
-  padding-right: 20px;
+  padding: 0 20px;
 
   /* Align */
   display: flex;
@@ -56,7 +57,7 @@ code {
 
 #display-last {
   font-size: 18px;
-  height: calc(var(--box-wh) / 2);
+  height: calc(var(--box-wh) / 1.5);
   margin-top: 10px;
 }
 
