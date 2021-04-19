@@ -14,7 +14,7 @@ code {
 }
 
 :root {
-  --box-wh: 80px;
+  --box-wh: 85px;
 }
 
 #calc {
@@ -60,9 +60,10 @@ code {
 .display p {
   /* Box Model */
   width: calc(100% - 20px);
-  padding: 0 20px 0 0;
+  padding: 0px 20px 0 0;
   height: 100%;
   left: -1px;
+  /* margin: 0px 0 10px 0px; */
 
   /* Align+ */
   position: absolute;
@@ -78,14 +79,13 @@ code {
 }
 
 .display p::-webkit-scrollbar {
-  height: 15px;
+  height: 16px;
 }
 
 .display p::-webkit-scrollbar-thumb {
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: rgb(173, 173, 173);
   height: 5px;
-  border: 0.5px solid white;
   border: 5px solid rgba(0, 0, 0, 0);
   background-clip: padding-box;
 }
@@ -105,8 +105,47 @@ code {
 }
 
 #display-main {
+  font-size: 28px;
   margin-top: 2px;
   margin-bottom: 1px;
+}
+
+#display-icons {
+  width: 25%;
+  z-index: 2;
+  background-color: gray;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: calc(var(--box-wh) / 2);
+}
+
+.display a {
+  /* color: white; */
+  stroke-width: 4px;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: flex-start; */
+  position: absolute;
+  z-index: 3;
+  left: 45px;
+  top: 12px;
+  /* font-size: 30px; */
+  /* background-color: gray; */
+  height: 5px;
+}
+
+.display a svg {
+  z-index: 5;
+  background-color: gray;
+}
+
+.display a:nth-child(1) {
+  left: 10px;
+}
+
+.display a:hover {
+  cursor: pointer;
 }
 
 .line-box {
