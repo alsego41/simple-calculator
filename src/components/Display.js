@@ -2,10 +2,12 @@ const Display = props => {
     return (
         <>
             <div id='display-last' className='display' onClick={props.copyContent}>
-                {props.lastText}
+                <p>{props.lastText}</p>
+                {/* {props.lastText} */}
             </div>
             <div id='display-main' className='display'>
-                {props.mainText}
+            {/* {props.mainText} */}
+                <p>{props.mainText}</p>
             </div>
         </>
     )

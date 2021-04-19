@@ -56,14 +56,17 @@ function App() {
         // console.log(display);
         // console.log(aux);
         // console.log(aux[0]);
-        if (aux[0] === '-'){
-          setDisplay(aux.slice(1))
-        }
-        else {
-          setDisplay('-' + display)
+        if (display !== 'Syntax error'){
+          if (aux[0] === '-'){
+            setDisplay(aux.slice(1))
+          }
+          else {
+            setDisplay('-' + display)
+          }
         }
       }
       else {
+        // Re-ver set en display = 0 -> lo primero q se va a poner va a ser un operador, estaria bien solo para un - o .
         setDisplay(
           display === 0 || display === 'Syntax error' ? 
           interpretarSimbolo(e.target.textContent) : 

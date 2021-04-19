@@ -53,6 +53,49 @@ code {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  
+  position: relative;
+}
+
+.display p {
+  /* Box Model */
+  width: calc(100% - 20px);
+  padding: 0 20px 0 0;
+  height: 100%;
+  left: -1px;
+
+  /* Align+ */
+  position: absolute;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  vertical-align: middle;
+  
+  overflow: scroll;
+  overflow-y: hidden;
+
+  font-weight: inherit;
+}
+
+.display p::-webkit-scrollbar {
+  height: 15px;
+}
+
+.display p::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: rgb(173, 173, 173);
+  height: 5px;
+  border: 0.5px solid white;
+  border: 5px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+}
+
+.display p::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.display p::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 #display-last {
