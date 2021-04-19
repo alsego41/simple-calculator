@@ -66,6 +66,7 @@ function App() {
         }
       }
       else {
+        // Re-ver set en display = 0 -> lo primero q se va a poner va a ser un operador, estaria bien solo para un - o .
         setDisplay(
           display === 0 || display === 'Syntax error' ? 
           interpretarSimbolo(e.target.textContent) : 
