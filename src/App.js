@@ -125,7 +125,6 @@ function App() {
   }
 
   const procesar = (cadena) => {
-    let newCadena
     let op = ['²','√','×','÷','-','+']
     console.log(cadena.length);
     while (cadena.length > 1){
@@ -133,19 +132,17 @@ function App() {
         for (let j = 0; j < cadena.length; j++){
           // console.log('procesar');
           // console.log(cadena);
-          // cadena = transformarCadena(op[i], cadena[j], j, cadena)
-          newCadena = transformarCadena(op[i], cadena[j], j, cadena)
+          cadena = transformarCadena(op[i], cadena[j], j, cadena)
           // console.log(typeof cadena);
-          console.log(newCadena);
-          // if (cadena.includes(NaN)){
-          if (newCadena.includes(NaN)){
+          // console.log(newCadena);
+          if (cadena.includes(NaN)){
             return 'Syntax error'
           }
         }
       }
+      console.log(cadena);
     }
-    return newCadena
-    // return cadena
+    return cadena
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
@@ -238,7 +235,6 @@ function App() {
       // console.log(e);
     else if (e.key === 'Enter' && !(display === 'Syntax error')) {
       calcRevamped()
-      // calculation()
     }
   }
 
