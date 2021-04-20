@@ -94,7 +94,7 @@ function App() {
 
   const calcRevamped = () => {
     let arreglo = separar()
-    console.log(arreglo);
+    // console.log(arreglo);
     setPrim(display)
     setDisplay(procesar(arreglo))
   }
@@ -126,7 +126,7 @@ function App() {
 
   const procesar = (cadena) => {
     let op = ['²','√','×','÷','-','+']
-    console.log(cadena.length);
+    // console.log(cadena.length);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
@@ -140,7 +140,7 @@ function App() {
           }
         }
       }
-      console.log(cadena);
+      // console.log(cadena);
     }
     return cadena
   }
@@ -242,12 +242,28 @@ function App() {
     setDisplay(prim)
   }
 
+  const copyClipboard = e => {
+    let elemento
+    // console.log(e.target.nodeName);
+    e.target.nodeName === 'path' ?
+      elemento = e.target.parentNode :
+      elemento = e.target
+    // console.log(elemento);
+    console.log(elemento.parentNode.id);
+    if (elemento.parentNode.id === 'lastd-copyc'){
+      navigator.clipboard.writeText(prim)
+    }
+    else if (elemento.parentNode.id === 'maind-copyc') {
+      navigator.clipboard.writeText(display)
+    }
+  }
+
   return (
     <div id='calc'>
       <h1>A Simple Calculator</h1>
       <p>Now with React!</p>
       <div id='main-box'>
-        <Display lastText={prim} mainText={display} copyContent={copyContent} />
+        <Display lastText={prim} mainText={display} copyContent={copyContent} copyClipboard={copyClipboard} />
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
           updDisplay={updDisplay}  
         />
