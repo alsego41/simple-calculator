@@ -142,7 +142,9 @@ function App() {
       }
       // console.log(cadena);
     }
-    return cadena
+    let test = Number(cadena).toFixed(4)
+    // console.log(parseFloat(test));
+    return parseFloat(test)
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
@@ -269,6 +271,7 @@ function App() {
         copyDiv.classList.toggle('invisible')
       }, 2000);
     }
+    // console.log(typeof display);
   }
 
   return (
