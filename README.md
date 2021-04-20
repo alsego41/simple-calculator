@@ -9,4 +9,3 @@ Now made with React!
 ## Future Updates / Improvements
 
 - After the obtantion of a result, if an operator is pressed it will be added, but if it's another number it will be added as a new count. ??? (Maybe this isn't necessary).
-- Change display colors on click / hover.
