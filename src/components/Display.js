@@ -4,6 +4,7 @@ const Display = props => {
     return (
         <>
             <div id='display-last' className='display'>
+                <p>{props.lastText}</p>
                 <div id='grid-icons'>
                     <NotificationBox text='Copied!' />
                     <div className='icons' id='lastd-copyc' onClick={props.copyClipboard}>
@@ -20,7 +21,7 @@ const Display = props => {
                         </svg>
                     </div>
                 </div>
-                <p>{props.lastText}</p>
+                
             </div>
             <div id='display-main' className='display'>
                 <NotificationBox text='Copied!' />
