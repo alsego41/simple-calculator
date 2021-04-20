@@ -249,12 +249,26 @@ function App() {
       elemento = e.target.parentNode :
       elemento = e.target
     // console.log(elemento);
-    console.log(elemento.parentNode.id);
-    if (elemento.parentNode.id === 'lastd-copyc'){
+    // console.log(elemento.parentNode.id);
+    let padre = elemento.parentNode
+    // console.log(padre);
+    if (padre.id === 'lastd-copyc'){
       navigator.clipboard.writeText(prim)
+      let copyDiv = padre.parentNode.querySelector('.notif-box')
+      // console.log(copyDiv);
+      copyDiv.classList.toggle('invisible')
+      setTimeout(() => {
+        copyDiv.classList.toggle('invisible')
+      }, 2000);
     }
-    else if (elemento.parentNode.id === 'maind-copyc') {
+    else if (padre.id === 'maind-copyc') {
       navigator.clipboard.writeText(display)
+      let copyDiv = padre.parentNode.querySelector('.notif-box')
+      // console.log(copyDiv);
+      copyDiv.classList.toggle('invisible')
+      setTimeout(() => {
+        copyDiv.classList.toggle('invisible')
+      }, 2000);
     }
   }
 
