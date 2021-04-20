@@ -41,16 +41,20 @@ function App() {
        )
      }
     } 
+    // TIPO CLICK
     else {
       // console.log(e.target.textContent);
+      // Clear
       if (e.target.textContent === 'C') {
         setDisplay(0)
       } 
+      // =
       else if (e.target.textContent === '=') {
         if (display !== 'Syntax error'){
           calcRevamped()
         }
       }
+      // +/-
       else if (e.target.textContent === '+∕-'){
         // console.log(typeof display);
         let aux
@@ -76,6 +80,7 @@ function App() {
           }
         }
       }
+      // Comun add
       else {
         // Re-ver set en display = 0 -> lo primero q se va a poner va a ser un operador, estaria bien solo para un - o .
         setDisplay(
@@ -89,13 +94,13 @@ function App() {
 
   const calcRevamped = () => {
     let arreglo = separar()
-    // console.log(arreglo);
+    console.log(arreglo);
     setPrim(display)
     setDisplay(procesar(arreglo))
   }
 
   const separar = () => {
-    let cadena = display.toString()
+    let cadena = display
     let lista = ['²','√','×','÷','+','-']
     let arreglo = []
     let flag = false
@@ -120,19 +125,27 @@ function App() {
   }
 
   const procesar = (cadena) => {
+    let newCadena
     let op = ['²','√','×','÷','-','+']
-    for (let i = 0; i < op.length; i++){
-      for (let j = 0; j < cadena.length; j++){
-        // console.log('procesar');
-        // console.log(cadena);
-        cadena = transformarCadena(op[i], cadena[j], j, cadena)
-        // console.log(typeof cadena);
-        if (cadena.includes(NaN)){
-          return 'Syntax error'
+    console.log(cadena.length);
+    while (cadena.length > 1){
+      for (let i = 0; i < op.length; i++){
+        for (let j = 0; j < cadena.length; j++){
+          // console.log('procesar');
+          // console.log(cadena);
+          // cadena = transformarCadena(op[i], cadena[j], j, cadena)
+          newCadena = transformarCadena(op[i], cadena[j], j, cadena)
+          // console.log(typeof cadena);
+          console.log(newCadena);
+          // if (cadena.includes(NaN)){
+          if (newCadena.includes(NaN)){
+            return 'Syntax error'
+          }
         }
       }
     }
-    return cadena
+    return newCadena
+    // return cadena
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
