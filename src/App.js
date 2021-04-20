@@ -52,7 +52,18 @@ function App() {
         }
       }
       else if (e.target.textContent === '+∕-'){
-        let aux = display.toString()
+        // console.log(typeof display);
+        let aux
+        if (typeof display !== 'string'){
+          aux = display.join('')
+          // console.log(typeof aux);
+          // console.log(aux);
+        }
+        else {
+          aux = display
+          // console.log(typeof aux);
+          // console.log(aux);
+        }
         // console.log(display);
         // console.log(aux);
         // console.log(aux[0]);
@@ -61,7 +72,7 @@ function App() {
             setDisplay(aux.slice(1))
           }
           else {
-            setDisplay('-' + display)
+            setDisplay('-' + aux)
           }
         }
       }
@@ -115,6 +126,7 @@ function App() {
         // console.log('procesar');
         // console.log(cadena);
         cadena = transformarCadena(op[i], cadena[j], j, cadena)
+        // console.log(typeof cadena);
         if (cadena.includes(NaN)){
           return 'Syntax error'
         }
