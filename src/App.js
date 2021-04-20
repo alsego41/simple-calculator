@@ -186,7 +186,6 @@ function App() {
             cadena.splice(vPos - 1, 3, res)
           }
           // console.log(res);
-          // cadena.splice(vPos - 1, 3, res)
           break
         default:
           break;
@@ -227,7 +226,7 @@ function App() {
   document.onkeydown = e => {
     // console.log(e);
     // console.log(!(e.which > 112 && e.which < 123));
-    if ((e.key.match(regex) && !(e.which > 112 && e.which < 123)) 
+    if ((e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
     || e.key === 'Backspace' 
     || e.key === 'Delete'){
         updDisplay(e)
