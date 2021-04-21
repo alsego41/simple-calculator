@@ -1,3 +1,7 @@
+:root {
+  --box-wh: 90px;
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -8,10 +12,6 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-:root {
-  --box-wh: 90px;
 }
 
 #calc {
@@ -40,8 +40,8 @@ code {
   color: white;
 
   /* Box Model */
-  height: calc(var(--box-wh)*1.5);
-  width: calc((var(--box-wh) * 4)+ 24px);
+  height: calc(90px*1.5);
+  width: calc((90px * 4)+ 24px);
   margin: 0 10px;
   font-size: 22px;
   padding: 0 20px;
@@ -100,8 +100,8 @@ code {
 
 #display-last {
   font-size: 20px;
-  height: calc(var(--box-wh) / 1.5);
-  width: calc((var(--box-wh) * 4)+ 24px);
+  height: calc(90px / 1.5);
+  width: calc((90px * 4)+ 24px);
   padding: 0;
   margin-top: 10px;
   display: grid;
@@ -178,8 +178,8 @@ code {
   /* Box Model */
   font-size: 20px;
   border: 2px solid transparent;
-  width: var(--box-wh);
-  height: var(--box-wh);
+  width: 90px;
+  height: 90px;
   margin: 1px;
 
   /* Align */
@@ -190,12 +190,12 @@ code {
 
 .line-box .boton:first-child {
   margin-left: 0;
-  width: calc(var(--box-wh) + 1);
+  width: calc(90px + 1);
 }
 
 .line-box .boton:last-child {
   margin-right: 0;
-  width: calc(var(--box-wh) + 1);
+  width: calc(90px + 1);
 }
 
 .boton:hover {
