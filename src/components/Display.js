@@ -23,7 +23,7 @@ const Display = props => {
                 </div>
                 
             </div>
-            <div id='display-main' className='display' onPaste={props.pasteToDisplay}>
+            <div id='display-main' className='display'>
                 <NotificationBox text='Copied!' />
                 <div className='icons' id='maind-copyc' onClick={props.copyClipboard}>
                     <svg width="50" height="50" viewBox="0 10 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ const Display = props => {
                         <path d="M30 54.9999H22C19.7909 54.9999 18 53.2091 18 50.9999L18 17C18 14.7907 19.7911 12.9998 22.0004 13L45.9993 13.0003C48.2087 12.9999 50 14.7909 50 17.0003V25.0009" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-                <p>{props.mainText}</p>
+                <p onPaste={props.pasteToDisplay} onMouseDown={props.editContMenu} >{props.mainText}</p>
             </div>
         </>
     )

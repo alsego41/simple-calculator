@@ -280,13 +280,30 @@ function App() {
   }
 
   const pasteToDisplay = e => {
+    e.preventDefault()
+    // console.log(e);
     let toPaste = e.clipboardData.getData('Text')
     // console.log(e.clipboardData.getData('Text'));
-    if (display === 0) {
+    if (display === 0 || display === 'Syntax error') {
       setDisplay(toPaste)
     }
     else {
       setDisplay(display + toPaste)
+    }
+  }
+
+  const editContMenu = e => {
+    // console.log(e);
+    if (e.button === 0 ) {
+      // console.log(e.target.contentEditable);
+    }
+    if (e.button === 2) {
+      e.target.contentEditable = 'true'
+      // console.log(e.target.contentEditable);
+      setTimeout(() => {
+        e.target.contentEditable = 'false'
+        // console.log(e.target.contentEditable);
+      }, 1000);
     }
   }
 
@@ -298,7 +315,8 @@ function App() {
         <Display lastText={prim} mainText={display} 
           copyContent={copyContent} 
           copyClipboard={copyClipboard}
-          pasteToDisplay={pasteToDisplay} />
+          pasteToDisplay={pasteToDisplay}
+          editContMenu={editContMenu} />
         {/* <LineBox text1='log' text2='ln' text3='(' text4=')' 
           updDisplay={updDisplay}  
         />
