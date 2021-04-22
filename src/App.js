@@ -282,7 +282,12 @@ function App() {
   const pasteToDisplay = e => {
     let toPaste = e.clipboardData.getData('Text')
     // console.log(e.clipboardData.getData('Text'));
-    setDisplay(display + toPaste)
+    if (display === 0) {
+      setDisplay(toPaste)
+    }
+    else {
+      setDisplay(display + toPaste)
+    }
   }
 
   return (
