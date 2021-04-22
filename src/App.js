@@ -237,6 +237,11 @@ function App() {
     else if (e.key === 'Enter' && !(display === 'Syntax error')) {
       calcRevamped()
     }
+    else if ((e.key === 'v' || e.key === 'V') && e.ctrlKey){
+      // console.log(window.clipboardData);
+      // console.log(window.clipboardData.getData('text/plain'));
+      // setDisplay(window.clipboardData.getData)
+    }
   }
 
   const copyContent = () => {
@@ -274,12 +279,27 @@ function App() {
     // console.log(typeof display);
   }
 
+  const pasteToDisplay = e => {
+    let toPaste = e.clipboardData.getData('Text')
+    // console.log(e.clipboardData.getData('Text'));
+    setDisplay(display + toPaste)
+  }
+
   return (
     <div id='calc'>
       <h1>A Simple Calculator</h1>
-      <p>Now with React!</p>
+      {/* <p>Now with React!</p> */}
       <div id='main-box'>
-        <Display lastText={prim} mainText={display} copyContent={copyContent} copyClipboard={copyClipboard} />
+        <Display lastText={prim} mainText={display} 
+          copyContent={copyContent} 
+          copyClipboard={copyClipboard}
+          pasteToDisplay={pasteToDisplay} />
+        {/* <LineBox text1='log' text2='ln' text3='(' text4=')' 
+          updDisplay={updDisplay}  
+        />
+        <LineBox text1='AC' text2='x&radic;' text3='^x' text4='pi' 
+          updDisplay={updDisplay}  
+        /> */}
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
           updDisplay={updDisplay}  
         />

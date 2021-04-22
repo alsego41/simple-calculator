@@ -23,7 +23,7 @@ const Display = props => {
                 </div>
                 
             </div>
-            <div id='display-main' className='display'>
+            <div id='display-main' className='display' onPaste={props.pasteToDisplay}>
                 <NotificationBox text='Copied!' />
                 <div className='icons' id='maind-copyc' onClick={props.copyClipboard}>
                     <svg width="50" height="50" viewBox="0 10 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
