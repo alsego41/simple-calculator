@@ -200,6 +200,16 @@ code {
   &:last-child{
     margin-bottom: 10px;
   }
+
+  .boton{
+    &:first-child {
+      margin-left: 0;
+    }
+  
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .boton {
@@ -216,16 +226,6 @@ code {
     background-color: rgb(185, 185, 185);
     border: 2px solid gray;
     text-shadow: 0px 0px 5px black;
-  }
-}
-
-.line-box .boton{
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
   }
 }
 

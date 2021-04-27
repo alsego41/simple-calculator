@@ -315,6 +315,12 @@ code {
 .line-box:last-child {
   margin-bottom: 10px;
 }
+.line-box .boton:first-child {
+  margin-left: 0;
+}
+.line-box .boton:last-child {
+  margin-right: 0;
+}
 
 .boton {
   background-color: gray;
@@ -330,13 +336,6 @@ code {
   background-color: #b9b9b9;
   border: 2px solid gray;
   text-shadow: 0px 0px 5px black;
-}
-
-.line-box .boton:first-child {
-  margin-left: 0;
-}
-.line-box .boton:last-child {
-  margin-right: 0;
 }
 
 .noselect {
