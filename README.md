@@ -6,7 +6,6 @@ Now made with React!
 
 2. Some operations like 4^2^2 would be resolve as normal when in reality this shouldnt be possible. 
 3. Also it's no possible to make a multiplication or division between two negative numbers.
-4. Sometimes after a result displayed the '+/-' button doesn't work.
 5. Sliders lack compatibility in most browsers.
 6. Calculator must be able to recognize high numbers expressed with e (number * 10^x).
 7. A number with multiple periods results in a NaN, which is okay, but it should display 'Syntax error'.
