@@ -58,15 +58,19 @@ function App() {
       else if (e.target.textContent === '+∕-'){
         // console.log(typeof display);
         let aux
-        if (typeof display !== 'string'){
+        // console.log(typeof display);
+        if (typeof display !== 'string' && typeof display !== 'number'){
           aux = display.join('')
+          // console.log(typeof aux);
+          // console.log(aux);
+        }
+        else if (typeof display === 'number') {
+          aux = display.toString()
           // console.log(typeof aux);
           // console.log(aux);
         }
         else {
           aux = display
-          // console.log(typeof aux);
-          // console.log(aux);
         }
         // console.log(display);
         // console.log(aux);
