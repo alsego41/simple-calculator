@@ -33,7 +33,6 @@ function App() {
       }
     }
     else {
-      // console.log(e.target);
       switch (e.target.textContent){
         case 'AC':
           setDisplay(0)
@@ -138,8 +137,6 @@ function App() {
           let result = procesar(newArray)
           arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
           [open, close] = getPosPrts(arreglo)
-          console.log(open);
-          console.log(close);
         }
       }
     }
@@ -171,7 +168,6 @@ function App() {
   }
 
   const separar = () => {
-    // console.log(typeof display);
     let cadena = display
     let lista = ['²','√','×','÷','+','-','(',')','^']
     let arreglo = []
@@ -196,17 +192,12 @@ function App() {
 
     for (let i = arreglo.length - 1; i >= 0; i--){
       if (arreglo[i].includes('log')){
-        // console.log(`En ${i} tiene log`);
-        // arreglo[i].split('log')
         arreglo.splice(i, 1, 'log', arreglo[i].substring(3))
       }
       if (arreglo[i].includes('ln')){
-        // console.log(`En ${i} tiene ln`);
         arreglo.splice(i, 1, 'ln', arreglo[i].substring(2))
       }
     }
-    
-    // console.log(arreglo);
     return arreglo
   }
 
@@ -222,12 +213,6 @@ function App() {
         }
       }
     }
-    // let test = Number(cadena).toFixed(4)
-    // // console.log(parseFloat(test));
-    // return parseFloat(test)
-    // if (isNaN(Number(cadena))){
-    //   cadena = 'Syntax error'
-    // }
     return Number(cadena)
   }
 
@@ -265,7 +250,6 @@ function App() {
           cadena.splice(vPos - 1, 3, res)
           break
         case '-':
-          // console.log(cadena[vPos - 1]);
           if (cadena[vPos - 1] === undefined){
             // console.log('hola');
             res = Number(0) - Number(cadena[vPos + 1])
@@ -274,7 +258,6 @@ function App() {
             res = Number(cadena[vPos - 1]) - Number(cadena[vPos + 1])
             cadena.splice(vPos - 1, 3, res)
           }
-          // console.log(res);
           break
         case '^':
           res = Math.pow(Number(cadena[vPos - 1]), Number(cadena[vPos + 1]))
@@ -291,7 +274,6 @@ function App() {
         default:
           break;
       }
-      // console.log(cadena);
     }
     return cadena
   }
