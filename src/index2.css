@@ -338,6 +338,9 @@ code {
   border: 2px solid gray;
   text-shadow: 0px 0px 5px black;
 }
+.boton p {
+  font-weight: inherit;
+}
 
 .noselect {
   user-select: none;
