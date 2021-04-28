@@ -1,47 +1,47 @@
 @media screen and (max-width: 1920px) {
   .display {
-    width: 384px;
+    width: 364px;
   }
   .display#display-main {
-    height: 135px;
+    height: 127.5px;
   }
   .display#display-main p {
-    font-size: 1.61rem;
+    font-size: 1.38rem;
   }
   .display#display-main .icons svg {
-    width: 45px;
-    height: 45px;
+    width: 42.5px;
+    height: 42.5px;
     stroke-width: 5px;
   }
   .display#display-last {
-    height: 67.5px;
+    height: 63.75px;
   }
   .display#display-last p {
-    font-size: 1.19rem;
+    font-size: 1.02rem;
   }
   .display#display-last .icons svg {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     stroke-width: 5px;
   }
 
   .boton {
-    width: 90px;
-    height: 90px;
-    font-size: 1.4rem;
+    width: 85px;
+    height: 85px;
+    font-size: 1.2rem;
   }
 
   .line-box .boton:first-child,
 .line-box .boton:last-child {
-    width: 91px;
+    width: 86px;
   }
 
   h1 {
-    font-size: 2.1rem;
+    font-size: 1.8rem;
   }
 
   .notif-box {
-    font-size: 1.0769230769rem;
+    font-size: 0.9230769231rem;
   }
 }
 @media screen and (max-width: 1366px) {
