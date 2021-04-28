@@ -11,17 +11,7 @@ function App() {
   const updDisplay = e => {
    if ( e.type === 'keydown') {
      if (e.key === 'Backspace'){
-       let len = display.length
-       if (len === 1){
-         setDisplay(0)
-      }
-      else {
-        if (display !== 0)
-        {
-          let auxdis = display.substring(0, len - 1)  
-          setDisplay(auxdis)
-        }
-      }
+       deleteByOne()
      } else if (e.key === 'Delete'){
        setDisplay(0)
      }
@@ -93,6 +83,17 @@ function App() {
           display + interpretarSimbolo(e.target.textContent)
         )
       }
+    }
+  }
+
+  const deleteByOne = () => {
+    let aux = display.toString()
+    let len = aux.length
+    if (len === 1){
+      setDisplay(0)
+    }
+    else {
+      setDisplay(aux.substring(0, len - 1))
     }
   }
 
@@ -321,12 +322,12 @@ function App() {
           copyClipboard={copyClipboard}
           pasteToDisplay={pasteToDisplay}
           editContMenu={editContMenu} />
-        {/* <LineBox text1='log' text2='ln' text3='(' text4=')' 
+        <LineBox text1='log' text2='ln' text3='(' text4=')' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='AC' text2='x&radic;' text3='^x' text4='pi' 
+        <LineBox text1='AC' text2='y&radic;' text3='^x' text4='pi' 
           updDisplay={updDisplay}  
-        /> */}
+        />
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
           updDisplay={updDisplay}  
         />
