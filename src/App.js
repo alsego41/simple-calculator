@@ -35,7 +35,7 @@ function App() {
     // TIPO CLICK
     else {
       switch (e.target.textContent){
-        case 'C':
+        case 'AC':
           setDisplay(0)
           break
         case '=':
@@ -63,7 +63,7 @@ function App() {
             }
           }
           break
-        case 'AC':
+        case 'C':
           deleteByOne()
           break
         default:
