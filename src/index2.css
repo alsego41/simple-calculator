@@ -235,6 +235,7 @@ code {
   overflow: scroll;
   overflow-y: hidden;
   font-weight: inherit;
+  white-space: nowrap;
 }
 .display p::-webkit-scrollbar {
   height: 16px;
