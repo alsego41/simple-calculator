@@ -9,14 +9,14 @@ function App() {
   const [ prim, setPrim ] = useState(0)
 
   const updDisplay = e => {
-   if ( e.type === 'keydown') {
-     if (e.key === 'Backspace'){
-       deleteByOne()
-     } 
-     else if (e.key === 'Delete'){
-       setDisplay(0)
-     }
-     else {
+    if ( e.type === 'keydown') {
+      if (e.key === 'Backspace'){
+        deleteByOne()
+      } 
+      else if (e.key === 'Delete'){
+        setDisplay(0)
+      }
+      else {
       let tkd = transformarKeyDown(e.key)
       if (tkd !== ' '){
         setDisplay(
@@ -25,14 +25,13 @@ function App() {
             display + tkd
         )
       } else
-       setDisplay(
-         display === 0 || display === 'Syntax error' ? 
-           e.key : 
-           display + e.key
-       )
-     }
-    } 
-    // TIPO CLICK
+        setDisplay(
+          display === 0 || display === 'Syntax error' ? 
+            e.key : 
+            display + e.key
+        )
+      }
+    }
     else {
       switch (e.target.textContent){
         case 'AC':
@@ -99,8 +98,45 @@ function App() {
   const calcRevamped = () => {
     let arreglo = separar()
     // console.log(arreglo);
+    // console.log(arreglo.includes('(' || ')'));
+    let [ openParPos, closeParPos ] = getPosPrts(arreglo)
+    resolverPrts(openParPos, closeParPos, arreglo)
     setPrim(display)
     setDisplay(procesar(arreglo))
+  }
+
+  const getPosPrts = (arreglo) => {
+    let openParPos = []
+    let closeParPos = []
+    for (let i = 0; i < arreglo.length; i++){
+      if (arreglo[i] === '('){
+        openParPos.push(i)
+      }
+      if (arreglo[i] === ')'){
+        closeParPos.push(i)
+      }
+    }
+    let prts = [openParPos, closeParPos]
+    return prts
+  }
+
+  const resolverPrts = (open, close, arreglo) => {
+    // console.log(open[open.length - 1]);
+    // console.log(close[0]);
+    let opL = open.length - 1
+    let clL = close.length
+    for (let i = opL; i >= 0; i--){
+      for (let j = 0; j < clL; j++){
+        if (open[i] < close[j]){
+          let newArray = arreglo.slice(open[i] + 1, close[j])
+          let result = procesar(newArray)
+          arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
+          [open, close] = getPosPrts(arreglo)
+          console.log(open);
+          console.log(close);
+        }
+      }
+    }
   }
 
   const deleteByOne = () => {
@@ -116,9 +152,22 @@ function App() {
     }
   }
 
+  const transformarKeyDown = (simbolo) => {
+    const simbolosRaros = ['+','-','×','÷']
+    const operadores = ['+','-','*','/']
+    let whichOp = operadores.findIndex(op => op === simbolo)
+    let op = ' '
+    if (whichOp >= 0){
+      op = simbolosRaros[whichOp]
+      // console.log(`sr ${op}`);
+    }
+    return op
+  }
+
   const separar = () => {
+    // console.log(typeof display);
     let cadena = display
-    let lista = ['²','√','×','÷','+','-']
+    let lista = ['²','√','×','÷','+','-','(',')','^']
     let arreglo = []
     let flag = false
     let acc = ''
@@ -142,7 +191,7 @@ function App() {
   }
 
   const procesar = (cadena) => {
-    let op = ['²','√','×','÷','-','+']
+    let op = ['²','^','√','×','÷','-','+']
     // console.log(cadena.length);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
@@ -159,9 +208,10 @@ function App() {
       }
       // console.log(cadena);
     }
-    let test = Number(cadena).toFixed(4)
-    // console.log(parseFloat(test));
-    return parseFloat(test)
+    // let test = Number(cadena).toFixed(4)
+    // // console.log(parseFloat(test));
+    // return parseFloat(test)
+    return Number(cadena)
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
@@ -206,24 +256,17 @@ function App() {
           }
           // console.log(res);
           break
+        case '^':
+          res = Math.pow(Number(cadena[vPos - 1]), Number(cadena[vPos + 1]))
+          // res = Number(cadena[vPos - 1]) * Number(cadena[vPos + 1])
+          cadena.splice(vPos - 1, 3, res)
+          break
         default:
           break;
       }
       // console.log(cadena);
     }
     return cadena
-  }
-
-  const transformarKeyDown = (simbolo) => {
-    const simbolosRaros = ['+','-','×','÷']
-    const operadores = ['+','-','*','/']
-    let whichOp = operadores.findIndex(op => op === simbolo)
-    let op = ' '
-    if (whichOp >= 0){
-      op = simbolosRaros[whichOp]
-      // console.log(`sr ${op}`);
-    }
-    return op
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
