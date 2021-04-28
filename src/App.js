@@ -66,15 +66,41 @@ function App() {
         case 'C':
           deleteByOne()
           break
+        case 'Π':
+          if (display !== 0)
+            setDisplay(display + '3.1415')
+          else
+            setDisplay('3.1415')
+          break
+        case 'x²':
+          setDisplay(display + '²')
+          break
+        case '√x':
+          // Add exception when a single number is displayed
+          setDisplay(display + '√')
+          break
+        case 'y√':
+          setDisplay(display + '√')
+          break
+        case '^x':
+          setDisplay(display + '^')
+          break
         default:
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
-            interpretarSimbolo(e.target.textContent) : 
-            display + interpretarSimbolo(e.target.textContent)
+            e.target.textContent : 
+            display + e.target.textContent
           )
           break
       }
     }
+  }
+
+  const calcRevamped = () => {
+    let arreglo = separar()
+    // console.log(arreglo);
+    setPrim(display)
+    setDisplay(procesar(arreglo))
   }
 
   const deleteByOne = () => {
@@ -88,13 +114,6 @@ function App() {
         setDisplay(aux.substring(0, len - 1))
       }
     }
-  }
-
-  const calcRevamped = () => {
-    let arreglo = separar()
-    // console.log(arreglo);
-    setPrim(display)
-    setDisplay(procesar(arreglo))
   }
 
   const separar = () => {
@@ -195,20 +214,6 @@ function App() {
     return cadena
   }
 
-  const interpretarSimbolo = (simbolo) => {
-    // console.log(`simbolo ${simbolo}`);
-    const simbolosRaros = ['x²','√x']
-    const operadores = ['²','√']
-    let whichOp = simbolosRaros.findIndex(simboloRaro => simboloRaro === simbolo)
-    let op = ' '
-    if (whichOp >= 0){
-      op = operadores[whichOp]
-      // console.log(`op ${op}`);
-      return op
-    }
-    return simbolo
-  }
-
   const transformarKeyDown = (simbolo) => {
     const simbolosRaros = ['+','-','×','÷']
     const operadores = ['+','-','*','/']
@@ -224,21 +229,14 @@ function App() {
   const regex = new RegExp('([0-9*/+.-])+')
 
   document.onkeydown = e => {
-    // console.log(e);
-    // console.log(!(e.which > 112 && e.which < 123));
-    if ((e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
+    if (
+    (e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
     || e.key === 'Backspace' 
     || e.key === 'Delete'){
         updDisplay(e)
     }
-      // console.log(e);
     else if (e.key === 'Enter' && !(display === 'Syntax error')) {
       calcRevamped()
-    }
-    else if ((e.key === 'v' || e.key === 'V') && e.ctrlKey){
-      // console.log(window.clipboardData);
-      // console.log(window.clipboardData.getData('text/plain'));
-      // setDisplay(window.clipboardData.getData)
     }
   }
 
@@ -248,18 +246,13 @@ function App() {
 
   const copyClipboard = e => {
     let elemento
-    // console.log(e.target.nodeName);
     e.target.nodeName === 'path' ?
       elemento = e.target.parentNode :
       elemento = e.target
-    // console.log(elemento);
-    // console.log(elemento.parentNode.id);
     let padre = elemento.parentNode
-    // console.log(padre);
     if (padre.id === 'lastd-copyc'){
       navigator.clipboard.writeText(prim)
       let copyDiv = padre.parentNode.querySelector('.notif-box')
-      // console.log(copyDiv);
       copyDiv.classList.toggle('invisible')
       setTimeout(() => {
         copyDiv.classList.toggle('invisible')
@@ -268,20 +261,16 @@ function App() {
     else if (padre.id === 'maind-copyc') {
       navigator.clipboard.writeText(display)
       let copyDiv = padre.parentNode.querySelector('.notif-box')
-      // console.log(copyDiv);
       copyDiv.classList.toggle('invisible')
       setTimeout(() => {
         copyDiv.classList.toggle('invisible')
       }, 2000);
     }
-    // console.log(typeof display);
   }
 
   const pasteToDisplay = e => {
     e.preventDefault()
-    // console.log(e);
     let toPaste = e.clipboardData.getData('Text')
-    // console.log(e.clipboardData.getData('Text'));
     if (display === 0 || display === 'Syntax error') {
       setDisplay(toPaste)
     }
@@ -308,7 +297,6 @@ function App() {
   return (
     <div id='calc'>
       <h1>A Simple Calculator</h1>
-      {/* <p>Now with React!</p> */}
       <div id='main-box'>
         <Display lastText={prim} mainText={display} 
           copyContent={copyContent} 
@@ -318,7 +306,7 @@ function App() {
         <LineBox text1='log' text2='ln' text3='(' text4=')' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='AC' text2='y&radic;' text3='^x' text4='pi' 
+        <LineBox text1='AC' text2='y&radic;' text3='^x' text4='&Pi;' 
           updDisplay={updDisplay}  
         />
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
