@@ -9,23 +9,14 @@ function App() {
   const [ prim, setPrim ] = useState(0)
 
   const updDisplay = e => {
-   if ( e.type === 'keydown') {
-     if (e.key === 'Backspace'){
-       let len = display.length
-       if (len === 1){
-         setDisplay(0)
+    if ( e.type === 'keydown') {
+      if (e.key === 'Backspace'){
+        deleteByOne()
+      } 
+      else if (e.key === 'Delete'){
+        setDisplay(0)
       }
       else {
-        if (display !== 0)
-        {
-          let auxdis = display.substring(0, len - 1)  
-          setDisplay(auxdis)
-        }
-      }
-     } else if (e.key === 'Delete'){
-       setDisplay(0)
-     }
-     else {
       let tkd = transformarKeyDown(e.key)
       if (tkd !== ' '){
         setDisplay(
@@ -34,78 +25,151 @@ function App() {
             display + tkd
         )
       } else
-       setDisplay(
-         display === 0 || display === 'Syntax error' ? 
-           e.key : 
-           display + e.key
-       )
-     }
-    } 
-    // TIPO CLICK
-    else {
-      // console.log(e.target.textContent);
-      // Clear
-      if (e.target.textContent === 'C') {
-        setDisplay(0)
-      } 
-      // =
-      else if (e.target.textContent === '=') {
-        if (display !== 'Syntax error'){
-          calcRevamped()
-        }
-      }
-      // +/-
-      else if (e.target.textContent === '+∕-'){
-        // console.log(typeof display);
-        let aux
-        // console.log(typeof display);
-        if (typeof display !== 'string' && typeof display !== 'number'){
-          aux = display.join('')
-          // console.log(typeof aux);
-          // console.log(aux);
-        }
-        else if (typeof display === 'number') {
-          aux = display.toString()
-          // console.log(typeof aux);
-          // console.log(aux);
-        }
-        else {
-          aux = display
-        }
-        // console.log(display);
-        // console.log(aux);
-        // console.log(aux[0]);
-        if (display !== 'Syntax error'){
-          if (aux[0] === '-'){
-            setDisplay(aux.slice(1))
-          }
-          else {
-            setDisplay('-' + aux)
-          }
-        }
-      }
-      // Comun add
-      else {
-        // Re-ver set en display = 0 -> lo primero q se va a poner va a ser un operador, estaria bien solo para un - o .
         setDisplay(
           display === 0 || display === 'Syntax error' ? 
-          interpretarSimbolo(e.target.textContent) : 
-          display + interpretarSimbolo(e.target.textContent)
+            e.key : 
+            display + e.key
         )
+      }
+    }
+    else {
+      switch (e.target.textContent){
+        case 'AC':
+          setDisplay(0)
+          break
+        case '=':
+          if (display !== 'Syntax error'){
+            calcRevamped()
+          }
+          break
+        case '+∕-':
+          let aux
+          if (typeof display !== 'string' && typeof display !== 'number'){
+            aux = display.join('')
+          }
+          else if (typeof display === 'number') {
+            aux = display.toString()
+          }
+          else {
+            aux = display
+          }
+          if (display !== 'Syntax error' && display !== 0){
+            if (aux[0] === '-'){
+              setDisplay(aux.slice(1))
+            }
+            else {
+              setDisplay('-' + aux)
+            }
+          }
+          break
+        case 'C':
+          deleteByOne()
+          break
+        case 'Π':
+          if (display !== 0)
+            setDisplay(display + '3.1415')
+          else
+            setDisplay('3.1415')
+          break
+        case 'x²':
+          setDisplay(display + '²')
+          break
+        case '√x':
+          // Add exception when a single number is displayed
+          if (display !== 0)
+            setDisplay(display + '√')
+          else
+            setDisplay('√')
+          break
+        case '∛x':
+          if (display !== 0)
+            setDisplay(display + '∛')
+          else
+            setDisplay('∛')
+          break
+        case 'xy':
+          setDisplay(display + '^')
+          break
+        case 'y':
+          setDisplay(display + '^')
+          break
+        default:
+          setDisplay(
+            display === 0 || display === 'Syntax error' ? 
+            e.target.textContent : 
+            display + e.target.textContent
+          )
+          break
       }
     }
   }
 
   const calcRevamped = () => {
     let arreglo = separar()
-    // console.log(arreglo);
+    let [ openParPos, closeParPos ] = getPosPrts(arreglo)
+    resolverPrts(openParPos, closeParPos, arreglo)
     setPrim(display)
     setDisplay(procesar(arreglo))
   }
 
+  const getPosPrts = (arreglo) => {
+    let openParPos = []
+    let closeParPos = []
+    for (let i = 0; i < arreglo.length; i++){
+      if (arreglo[i] === '('){
+        openParPos.push(i)
+      }
+      if (arreglo[i] === ')'){
+        closeParPos.push(i)
+      }
+    }
+    let prts = [openParPos, closeParPos]
+    return prts
+  }
+
+  const resolverPrts = (open, close, arreglo) => {
+    let opL = open.length - 1
+    let clL = close.length
+    for (let i = opL; i >= 0; i--){
+      for (let j = 0; j < clL; j++){
+        if (open[i] < close[j]){
+          let newArray = arreglo.slice(open[i] + 1, close[j])
+          let result = procesar(newArray)
+          arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
+          [open, close] = getPosPrts(arreglo)
+        }
+      }
+    }
+  }
+
+  const deleteByOne = () => {
+    if (display !== 'Syntax error') {
+      let aux = display.toString()
+      let len = aux.length
+      if (len === 1){
+        setDisplay(0)
+      }
+      else {
+        setDisplay(aux.substring(0, len - 1))
+      }
+    }
+  }
+
+  const transformarKeyDown = (simbolo) => {
+    const simbolosRaros = ['+','-','×','÷']
+    const operadores = ['+','-','*','/']
+    let whichOp = operadores.findIndex(op => op === simbolo)
+    let op = ' '
+    if (whichOp >= 0){
+      op = simbolosRaros[whichOp]
+      // console.log(`sr ${op}`);
+    }
+    return op
+  }
+
   const separar = () => {
     let cadena = display
-    let lista = ['²','√','×','÷','+','-']
+    let lista = ['²','√','×','÷','+','-','(',')','^']
     let arreglo = []
     let flag = false
     let acc = ''
@@ -125,30 +189,31 @@ function App() {
     }
     arreglo.push(acc)
     arreglo = arreglo.filter(sub => sub !== '')
+
+    for (let i = arreglo.length - 1; i >= 0; i--){
+      if (arreglo[i].includes('log')){
+        arreglo.splice(i, 1, 'log', arreglo[i].substring(3))
+      }
+      if (arreglo[i].includes('ln')){
+        arreglo.splice(i, 1, 'ln', arreglo[i].substring(2))
+      }
+    }
     return arreglo
   }
 
   const procesar = (cadena) => {
-    let op = ['²','√','×','÷','-','+']
-    // console.log(cadena.length);
+    let op = ['²','^','√','log','ln','×','÷','-','+']
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
-          // console.log('procesar');
-          // console.log(cadena);
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
-          // console.log(typeof cadena);
-          // console.log(newCadena);
           if (cadena.includes(NaN)){
             return 'Syntax error'
           }
         }
       }
-      // console.log(cadena);
     }
-    let test = Number(cadena).toFixed(4)
-    // console.log(parseFloat(test));
-    return parseFloat(test)
+    return Number(cadena)
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
@@ -156,7 +221,6 @@ function App() {
     if (op === valor){
       switch (op) {
         case '²':
-          // console.log(`op ${op} -> ${cadena[vPos - 1]} `);
           if (op !== cadena[vPos - 1]){
             res = Math.pow(Number(cadena[vPos - 1]), 2)
             cadena.splice(vPos - 1, 2, res)
@@ -167,6 +231,10 @@ function App() {
           break;
         case '√':
           res = Math.sqrt(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
+          break
+        case '∛':
+          res = Math.pow(Number(cadena[vPos + 1]), (1 / 3))
           cadena.splice(vPos, 2, res)
           break
         case '×':
@@ -182,7 +250,6 @@ function App() {
           cadena.splice(vPos - 1, 3, res)
           break
         case '-':
-          // console.log(cadena[vPos - 1]);
           if (cadena[vPos - 1] === undefined){
             // console.log('hola');
             res = Number(0) - Number(cadena[vPos + 1])
@@ -191,60 +258,37 @@ function App() {
             res = Number(cadena[vPos - 1]) - Number(cadena[vPos + 1])
             cadena.splice(vPos - 1, 3, res)
           }
-          // console.log(res);
+          break
+        case '^':
+          res = Math.pow(Number(cadena[vPos - 1]), Number(cadena[vPos + 1]))
+          cadena.splice(vPos - 1, 3, res)
+          break
+        case 'ln':
+          res = Math.log(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
+          break
+        case 'log':
+          res = Math.log10(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
           break
         default:
           break;
       }
-      // console.log(cadena);
     }
     return cadena
-  }
-
-  const interpretarSimbolo = (simbolo) => {
-    // console.log(`simbolo ${simbolo}`);
-    const simbolosRaros = ['x²','√x']
-    const operadores = ['²','√']
-    let whichOp = simbolosRaros.findIndex(simboloRaro => simboloRaro === simbolo)
-    let op = ' '
-    if (whichOp >= 0){
-      op = operadores[whichOp]
-      // console.log(`op ${op}`);
-      return op
-    }
-    return simbolo
-  }
-
-  const transformarKeyDown = (simbolo) => {
-    const simbolosRaros = ['+','-','×','÷']
-    const operadores = ['+','-','*','/']
-    let whichOp = operadores.findIndex(op => op === simbolo)
-    let op = ' '
-    if (whichOp >= 0){
-      op = simbolosRaros[whichOp]
-      // console.log(`sr ${op}`);
-    }
-    return op
   }
 
   const regex = new RegExp('([0-9*/+.-])+')
 
   document.onkeydown = e => {
-    // console.log(e);
-    // console.log(!(e.which > 112 && e.which < 123));
-    if ((e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
+    if (
+    (e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
     || e.key === 'Backspace' 
     || e.key === 'Delete'){
         updDisplay(e)
     }
-      // console.log(e);
     else if (e.key === 'Enter' && !(display === 'Syntax error')) {
       calcRevamped()
-    }
-    else if ((e.key === 'v' || e.key === 'V') && e.ctrlKey){
-      // console.log(window.clipboardData);
-      // console.log(window.clipboardData.getData('text/plain'));
-      // setDisplay(window.clipboardData.getData)
     }
   }
 
@@ -254,18 +298,13 @@ function App() {
 
   const copyClipboard = e => {
     let elemento
-    // console.log(e.target.nodeName);
     e.target.nodeName === 'path' ?
       elemento = e.target.parentNode :
       elemento = e.target
-    // console.log(elemento);
-    // console.log(elemento.parentNode.id);
     let padre = elemento.parentNode
-    // console.log(padre);
     if (padre.id === 'lastd-copyc'){
       navigator.clipboard.writeText(prim)
       let copyDiv = padre.parentNode.querySelector('.notif-box')
-      // console.log(copyDiv);
       copyDiv.classList.toggle('invisible')
       setTimeout(() => {
         copyDiv.classList.toggle('invisible')
@@ -274,20 +313,16 @@ function App() {
     else if (padre.id === 'maind-copyc') {
       navigator.clipboard.writeText(display)
       let copyDiv = padre.parentNode.querySelector('.notif-box')
-      // console.log(copyDiv);
       copyDiv.classList.toggle('invisible')
       setTimeout(() => {
         copyDiv.classList.toggle('invisible')
       }, 2000);
     }
-    // console.log(typeof display);
   }
 
   const pasteToDisplay = e => {
     e.preventDefault()
-    // console.log(e);
     let toPaste = e.clipboardData.getData('Text')
-    // console.log(e.clipboardData.getData('Text'));
     if (display === 0 || display === 'Syntax error') {
       setDisplay(toPaste)
     }
@@ -314,19 +349,18 @@ function App() {
   return (
     <div id='calc'>
       <h1>A Simple Calculator</h1>
-      {/* <p>Now with React!</p> */}
       <div id='main-box'>
         <Display lastText={prim} mainText={display} 
           copyContent={copyContent} 
           copyClipboard={copyClipboard}
           pasteToDisplay={pasteToDisplay}
           editContMenu={editContMenu} />
-        {/* <LineBox text1='log' text2='ln' text3='(' text4=')' 
+        <LineBox text1='log' text2='ln' text3='(' text4=')' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='AC' text2='x&radic;' text3='^x' text4='pi' 
+        <LineBox text1='AC' text2='&#8731;x' text3={<p>x<sup>y</sup></p>} text4='&Pi;' 
           updDisplay={updDisplay}  
-        /> */}
+        />
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
           updDisplay={updDisplay}  
         />
