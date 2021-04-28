@@ -12,7 +12,8 @@ function App() {
    if ( e.type === 'keydown') {
      if (e.key === 'Backspace'){
        deleteByOne()
-     } else if (e.key === 'Delete'){
+     } 
+     else if (e.key === 'Delete'){
        setDisplay(0)
      }
      else {
@@ -33,67 +34,59 @@ function App() {
     } 
     // TIPO CLICK
     else {
-      // console.log(e.target.textContent);
-      // Clear
-      if (e.target.textContent === 'C') {
-        setDisplay(0)
-      } 
-      // =
-      else if (e.target.textContent === '=') {
-        if (display !== 'Syntax error'){
-          calcRevamped()
-        }
-      }
-      // +/-
-      else if (e.target.textContent === '+∕-'){
-        // console.log(typeof display);
-        let aux
-        // console.log(typeof display);
-        if (typeof display !== 'string' && typeof display !== 'number'){
-          aux = display.join('')
-          // console.log(typeof aux);
-          // console.log(aux);
-        }
-        else if (typeof display === 'number') {
-          aux = display.toString()
-          // console.log(typeof aux);
-          // console.log(aux);
-        }
-        else {
-          aux = display
-        }
-        // console.log(display);
-        // console.log(aux);
-        // console.log(aux[0]);
-        if (display !== 'Syntax error'){
-          if (aux[0] === '-'){
-            setDisplay(aux.slice(1))
+      switch (e.target.textContent){
+        case 'C':
+          setDisplay(0)
+          break
+        case '=':
+          if (display !== 'Syntax error'){
+            calcRevamped()
+          }
+          break
+        case '+∕-':
+          let aux
+          if (typeof display !== 'string' && typeof display !== 'number'){
+            aux = display.join('')
+          }
+          else if (typeof display === 'number') {
+            aux = display.toString()
           }
           else {
-            setDisplay('-' + aux)
+            aux = display
           }
-        }
-      }
-      // Comun add
-      else {
-        // Re-ver set en display = 0 -> lo primero q se va a poner va a ser un operador, estaria bien solo para un - o .
-        setDisplay(
-          display === 0 || display === 'Syntax error' ? 
-          interpretarSimbolo(e.target.textContent) : 
-          display + interpretarSimbolo(e.target.textContent)
-        )
+          if (display !== 'Syntax error' && display !== 0){
+            if (aux[0] === '-'){
+              setDisplay(aux.slice(1))
+            }
+            else {
+              setDisplay('-' + aux)
+            }
+          }
+          break
+        case 'AC':
+          deleteByOne()
+          break
+        default:
+          setDisplay(
+            display === 0 || display === 'Syntax error' ? 
+            interpretarSimbolo(e.target.textContent) : 
+            display + interpretarSimbolo(e.target.textContent)
+          )
+          break
       }
     }
   }
 
   const deleteByOne = () => {
-    let aux = display.toString()
-    let len = aux.length
-    if (len === 1){
-      setDisplay(0)
-    }
-    else {
-      setDisplay(aux.substring(0, len - 1))
+    if (display !== 'Syntax error') {
+      let aux = display.toString()
+      let len = aux.length
+      if (len === 1){
+        setDisplay(0)
+      }
+      else {
+        setDisplay(aux.substring(0, len - 1))
+      }
     }
   }
 
