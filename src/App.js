@@ -33,6 +33,7 @@ function App() {
       }
     }
     else {
+      // console.log(e.target);
       switch (e.target.textContent){
         case 'AC':
           setDisplay(0)
@@ -76,12 +77,21 @@ function App() {
           break
         case '√x':
           // Add exception when a single number is displayed
-          setDisplay(display + '√')
+          if (display !== 0)
+            setDisplay(display + '√')
+          else
+            setDisplay('√')
           break
-        case 'y√':
-          setDisplay(display + '√')
+        case '∛x':
+          if (display !== 0)
+            setDisplay(display + '∛')
+          else
+            setDisplay('∛')
           break
-        case '^x':
+        case 'xy':
+          setDisplay(display + '^')
+          break
+        case 'y':
           setDisplay(display + '^')
           break
         default:
@@ -97,8 +107,6 @@ function App() {
 
   const calcRevamped = () => {
     let arreglo = separar()
-    // console.log(arreglo);
-    // console.log(arreglo.includes('(' || ')'));
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
     resolverPrts(openParPos, closeParPos, arreglo)
     setPrim(display)
@@ -121,8 +129,6 @@ function App() {
   }
 
   const resolverPrts = (open, close, arreglo) => {
-    // console.log(open[open.length - 1]);
-    // console.log(close[0]);
     let opL = open.length - 1
     let clL = close.length
     for (let i = opL; i >= 0; i--){
@@ -187,30 +193,41 @@ function App() {
     }
     arreglo.push(acc)
     arreglo = arreglo.filter(sub => sub !== '')
+
+    for (let i = arreglo.length - 1; i >= 0; i--){
+      if (arreglo[i].includes('log')){
+        // console.log(`En ${i} tiene log`);
+        // arreglo[i].split('log')
+        arreglo.splice(i, 1, 'log', arreglo[i].substring(3))
+      }
+      if (arreglo[i].includes('ln')){
+        // console.log(`En ${i} tiene ln`);
+        arreglo.splice(i, 1, 'ln', arreglo[i].substring(2))
+      }
+    }
+    
+    // console.log(arreglo);
     return arreglo
   }
 
   const procesar = (cadena) => {
-    let op = ['²','^','√','×','÷','-','+']
-    // console.log(cadena.length);
+    let op = ['²','^','√','log','ln','×','÷','-','+']
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
-          // console.log('procesar');
-          // console.log(cadena);
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
-          // console.log(typeof cadena);
-          // console.log(newCadena);
           if (cadena.includes(NaN)){
             return 'Syntax error'
           }
         }
       }
-      // console.log(cadena);
     }
     // let test = Number(cadena).toFixed(4)
     // // console.log(parseFloat(test));
     // return parseFloat(test)
+    // if (isNaN(Number(cadena))){
+    //   cadena = 'Syntax error'
+    // }
     return Number(cadena)
   }
 
@@ -219,7 +236,6 @@ function App() {
     if (op === valor){
       switch (op) {
         case '²':
-          // console.log(`op ${op} -> ${cadena[vPos - 1]} `);
           if (op !== cadena[vPos - 1]){
             res = Math.pow(Number(cadena[vPos - 1]), 2)
             cadena.splice(vPos - 1, 2, res)
@@ -230,6 +246,10 @@ function App() {
           break;
         case '√':
           res = Math.sqrt(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
+          break
+        case '∛':
+          res = Math.pow(Number(cadena[vPos + 1]), (1 / 3))
           cadena.splice(vPos, 2, res)
           break
         case '×':
@@ -258,8 +278,15 @@ function App() {
           break
         case '^':
           res = Math.pow(Number(cadena[vPos - 1]), Number(cadena[vPos + 1]))
-          // res = Number(cadena[vPos - 1]) * Number(cadena[vPos + 1])
           cadena.splice(vPos - 1, 3, res)
+          break
+        case 'ln':
+          res = Math.log(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
+          break
+        case 'log':
+          res = Math.log10(Number(cadena[vPos + 1]))
+          cadena.splice(vPos, 2, res)
           break
         default:
           break;
@@ -349,7 +376,7 @@ function App() {
         <LineBox text1='log' text2='ln' text3='(' text4=')' 
           updDisplay={updDisplay}  
         />
-        <LineBox text1='AC' text2='y&radic;' text3='^x' text4='&Pi;' 
+        <LineBox text1='AC' text2='&#8731;x' text3={<p>x<sup>y</sup></p>} text4='&Pi;' 
           updDisplay={updDisplay}  
         />
         <LineBox text1='C' text2='&radic;x' text3='x&sup2;' text4='&#247;' 
