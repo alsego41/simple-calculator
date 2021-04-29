@@ -224,7 +224,7 @@ function App() {
     if (op === valor){
       switch (op) {
         case '²':
-          if (op !== cadena[vPos - 1]){
+          if (op !== cadena[vPos + 1]){
             res = Math.pow(Number(cadena[vPos - 1]), 2)
             cadena.splice(vPos - 1, 2, res)
           } else {
