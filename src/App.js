@@ -214,18 +214,22 @@ function App() {
 
   const procesar = (cadena) => {
     let op = operadores
-    console.log(cadena);
+    // console.log(cadena);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
+          console.log(cadena);
           if (cadena.includes(NaN)){
             return 'Syntax error'
           }
         }
       }
     }
-    return Number(cadena)
+    let texto
+    isNaN(cadena) ? texto = 'Syntax error' : texto = Number(cadena)
+    // return Number(cadena)
+    return texto
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
@@ -283,13 +287,22 @@ function App() {
           cadena.splice(vPos - 1, 3, res)
           break
         case 'ln':
-          res = Math.log(Number(cadena[vPos + 1]))
-          cadena.splice(vPos, 2, res)
+          if (cadena[vPos + 1] === ''){
+            res = Math.log(Number(cadena[vPos + 2]))
+            cadena.splice(vPos, 3, res)
+          } else {
+            res = Math.log(Number(cadena[vPos + 1]))
+            cadena.splice(vPos, 2, res)
+          }
           break
         case 'log':
-
-          res = Math.log10(Number(cadena[vPos + 1]))
-          cadena.splice(vPos, 2, res)
+          if (cadena[vPos + 1] === ''){
+            res = Math.log(Number(cadena[vPos + 2]))
+            cadena.splice(vPos, 3, res)
+          } else {
+            res = Math.log10(Number(cadena[vPos + 1]))
+            cadena.splice(vPos, 2, res)
+          }
           break
         default:
           break;
