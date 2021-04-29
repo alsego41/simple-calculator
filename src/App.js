@@ -169,7 +169,7 @@ function App() {
 
   const separar = () => {
     let cadena = display
-    let lista = ['²','√','×','÷','+','-','(',')','^']
+    let lista = operadores
     let arreglo = []
     let flag = false
     let acc = ''
@@ -201,8 +201,11 @@ function App() {
     return arreglo
   }
 
+  const operadores = ['²','^','√','∛','log','ln','×','÷','-','+']
+
   const procesar = (cadena) => {
-    let op = ['²','^','√','log','ln','×','÷','-','+']
+    let op = operadores
+    console.log(cadena);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
@@ -234,7 +237,7 @@ function App() {
           cadena.splice(vPos, 2, res)
           break
         case '∛':
-          res = Math.pow(Number(cadena[vPos + 1]), (1 / 3))
+          res = Math.cbrt(Number(cadena[vPos + 1]))
           cadena.splice(vPos, 2, res)
           break
         case '×':
@@ -278,9 +281,9 @@ function App() {
     return cadena
   }
 
-  const regex = new RegExp('([0-9*/+.-])+')
-
+  
   document.onkeydown = e => {
+    const regex = new RegExp('([0-9*/+.-])+')
     if (
     (e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
     || e.key === 'Backspace' 
