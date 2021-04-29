@@ -201,7 +201,7 @@ function App() {
     return arreglo
   }
 
-  const operadores = ['²','^','√','∛','log','ln','×','÷','-','+']
+  const operadores = ['(',')','²','^','√','∛','log','ln','×','÷','-','+']
 
   const procesar = (cadena) => {
     let op = operadores
@@ -237,8 +237,15 @@ function App() {
           cadena.splice(vPos, 2, res)
           break
         case '∛':
-          res = Math.cbrt(Number(cadena[vPos + 1]))
-          cadena.splice(vPos, 2, res)
+          if (cadena[vPos + 1] === '-'){
+            res = Number(0) - Number(cadena[vPos + 2])
+            res = Math.cbrt(Number(res))
+            cadena.splice(vPos, 3, res)
+          }
+          else {
+            res = Math.cbrt(Number(cadena[vPos + 1]))
+            cadena.splice(vPos, 2, res)
+          }
           break
         case '×':
           res = Number(cadena[vPos - 1]) * Number(cadena[vPos + 1])
