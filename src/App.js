@@ -66,32 +66,41 @@ function App() {
           deleteByOne()
           break
         case 'Π':
-          if (display !== 0)
+          if (display !== 0 && display !== 'Syntax error')
             setDisplay(display + '3.1415')
           else
             setDisplay('3.1415')
           break
         case 'x²':
-          setDisplay(display + '²')
+          if (display !== 0 && display !== 'Syntax error')
+            setDisplay(display + '²')
+          else
+            setDisplay('²')
           break
         case '√x':
           // Add exception when a single number is displayed
-          if (display !== 0)
+          if (display !== 0 && display !== 'Syntax error')
             setDisplay(display + '√')
           else
             setDisplay('√')
           break
         case '∛x':
-          if (display !== 0)
+          if (display !== 0 && display !== 'Syntax error')
             setDisplay(display + '∛')
           else
             setDisplay('∛')
           break
         case 'xy':
-          setDisplay(display + '^')
+          if (display !== 0 && display !== 'Syntax error')
+            setDisplay(display + '^')
+          else
+            setDisplay('^')
           break
         case 'y':
-          setDisplay(display + '^')
+          if (display !== 0 && display !== 'Syntax error')
+            setDisplay(display + '^')
+          else
+            setDisplay('^')
           break
         default:
           setDisplay(
@@ -278,6 +287,7 @@ function App() {
           cadena.splice(vPos, 2, res)
           break
         case 'log':
+
           res = Math.log10(Number(cadena[vPos + 1]))
           cadena.splice(vPos, 2, res)
           break
