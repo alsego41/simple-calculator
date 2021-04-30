@@ -162,11 +162,13 @@ function App() {
     let arreglo = separar()
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
     let matchingPrts = resolverPrts(openParPos, closeParPos, arreglo)
-    console.log('llego');
+    // console.log('llego');
     if (matchingPrts){
-      console.log(matchingPrts);
+      // console.log(matchingPrts);
+      // console.log('pre procesar');
       setPrim(display)
       setDisplay(procesar(arreglo))
+      console.log('pos procesar');
       setIPR(true)
     }
     else {
@@ -364,8 +366,14 @@ function App() {
           }
           break
         default:
+          console.log('llego a default');
+          cadena.splice(0, ...cadena , NaN)
           break;
       }
+    }
+    else {
+      // console.log('paso por fuera en transfCadena');
+      cadena.push(NaN)
     }
     return cadena
   }
