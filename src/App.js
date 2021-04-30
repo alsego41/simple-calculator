@@ -86,11 +86,8 @@ function App() {
             setDisplay('²')
           break
         case '√x':
-          // let howMany = separar(display).length
-          // Add exception when a single number is displayed
-          // console.log(howMany);
           if (display !== 0 && display !== 'Syntax error'){
-            console.log(display);
+            // console.log(display);
             if (howMany === 1 || howMany === 0)
               setDisplay('√' + display)
             else
@@ -99,10 +96,8 @@ function App() {
           else setDisplay('√')
           break
         case '∛x':
-          
-          // console.log(howMany);
           if (display !== 0 && display !== 'Syntax error'){
-            console.log(display);
+            // console.log(display);
             if (howMany === 1 || howMany === 0)
               setDisplay('∛' + display)
             else 
@@ -110,6 +105,28 @@ function App() {
           }
           else
             setDisplay('∛')
+          break
+        case 'log':
+          if (display !== 0 && display !== 'Syntax error'){
+            // console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('log' + display)
+            else 
+              setDisplay(display + 'log')
+          }
+          else
+            setDisplay('log')
+          break
+        case 'ln':
+          if (display !== 0 && display !== 'Syntax error'){
+            // console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('ln' + display)
+            else 
+              setDisplay(display + 'ln')
+          }
+          else
+            setDisplay('ln')
           break
         case 'xy':
           if (display !== 0 && display !== 'Syntax error')
