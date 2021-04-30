@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 function App() {
   const [ display, setDisplay ] = useState(0)
   const [ prim, setPrim ] = useState(0)
+  const [ isPosResult, setIPR ] = useState(false)
 
   const updDisplay = e => {
     if ( e.type === 'keydown') {
@@ -17,19 +18,25 @@ function App() {
         setDisplay(0)
       }
       else {
-      let tkd = transformarKeyDown(e.key)
-      if (tkd !== ' '){
-        setDisplay(
-          display === 0 || display === 'Syntax error' ? 
-            tkd : 
-            display + tkd
-        )
-      } else
-        setDisplay(
-          display === 0 || display === 'Syntax error' ? 
-            e.key : 
-            display + e.key
-        )
+        let tkd = transformarKeyDown(e.key)
+        if (tkd !== ' '){
+          setDisplay(
+            display === 0 || display === 'Syntax error' ? 
+              tkd : 
+              display + tkd
+          )
+        } 
+        else
+          if (isPosResult) {
+            setPrim(display)
+            setDisplay(e.key)
+            setIPR(false)
+          } else
+          setDisplay(
+            display === 0 || display === 'Syntax error' ? 
+              e.key : 
+              display + e.key
+          )
       }
     }
     else {
@@ -103,6 +110,11 @@ function App() {
             setDisplay('^')
           break
         default:
+          if (isPosResult) {
+            setPrim(display)
+            setDisplay(e.target.textContent)
+            setIPR(false)
+          } else
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
             e.target.textContent : 
@@ -119,6 +131,7 @@ function App() {
     resolverPrts(openParPos, closeParPos, arreglo)
     setPrim(display)
     setDisplay(procesar(arreglo))
+    setIPR(true)
   }
 
   const getPosPrts = (arreglo) => {
@@ -219,7 +232,7 @@ function App() {
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
-          console.log(cadena);
+          // console.log(cadena);
           if (cadena.includes(NaN)){
             return 'Syntax error'
           }
