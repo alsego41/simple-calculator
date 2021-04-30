@@ -161,10 +161,18 @@ function App() {
   const calcRevamped = () => {
     let arreglo = separar()
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
-    resolverPrts(openParPos, closeParPos, arreglo)
-    setPrim(display)
-    setDisplay(procesar(arreglo))
-    setIPR(true)
+    let matchingPrts = resolverPrts(openParPos, closeParPos, arreglo)
+    console.log('llego');
+    if (matchingPrts){
+      console.log(matchingPrts);
+      setPrim(display)
+      setDisplay(procesar(arreglo))
+      setIPR(true)
+    }
+    else {
+      setPrim(display)
+      setDisplay('Syntax error')
+    }
   }
 
   const getPosPrts = (arreglo) => {
@@ -185,16 +193,21 @@ function App() {
   const resolverPrts = (open, close, arreglo) => {
     let opL = open.length - 1
     let clL = close.length
-    for (let i = opL; i >= 0; i--){
-      for (let j = 0; j < clL; j++){
-        if (open[i] < close[j]){
-          let newArray = arreglo.slice(open[i] + 1, close[j])
-          let result = procesar(newArray)
-          arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
-          [open, close] = getPosPrts(arreglo)
+    if (open.length === close.length){
+      for (let i = opL; i >= 0; i--){
+        for (let j = 0; j < clL; j++){
+          if (open[i] < close[j]){
+            let newArray = arreglo.slice(open[i] + 1, close[j])
+            let result = procesar(newArray)
+            arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
+            [open, close] = getPosPrts(arreglo)
+          }
         }
       }
+      return true
     }
+    else 
+      return false
   }
 
   const deleteByOne = () => {
