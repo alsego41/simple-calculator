@@ -162,13 +162,9 @@ function App() {
     let arreglo = separar()
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
     let matchingPrts = resolverPrts(openParPos, closeParPos, arreglo)
-    // console.log('llego');
     if (matchingPrts){
-      // console.log(matchingPrts);
-      // console.log('pre procesar');
       setPrim(display)
       setDisplay(procesar(arreglo))
-      console.log('pos procesar');
       setIPR(true)
     }
     else {
@@ -275,12 +271,10 @@ function App() {
 
   const procesar = (cadena) => {
     let op = operadores
-    // console.log(cadena);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
-          // console.log(cadena);
           if (cadena.includes(NaN)){
             return 'Syntax error'
           }
@@ -289,7 +283,6 @@ function App() {
     }
     let texto
     isNaN(cadena) ? texto = 'Syntax error' : texto = Number(cadena)
-    // return Number(cadena)
     return texto
   }
 
@@ -372,8 +365,10 @@ function App() {
       }
     }
     else {
-      // console.log('paso por fuera en transfCadena');
-      cadena.push(NaN)
+      let nose = cadena.filter(e => isNaN(Number(e)) === 'true')
+      if (nose.length === 0 && cadena.length > 1){
+        cadena.push(NaN)
+      }
     }
     return cadena
   }
