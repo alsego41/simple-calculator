@@ -40,6 +40,7 @@ function App() {
       }
     }
     else {
+      let howMany = separar(display).length
       switch (e.target.textContent){
         case 'AC':
           setDisplay(0)
@@ -85,15 +86,28 @@ function App() {
             setDisplay('²')
           break
         case '√x':
+          // let howMany = separar(display).length
           // Add exception when a single number is displayed
-          if (display !== 0 && display !== 'Syntax error')
+          // console.log(howMany);
+          if (display !== 0 && display !== 'Syntax error'){
+            console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('√' + display)
+            else
             setDisplay(display + '√')
-          else
-            setDisplay('√')
+          }
+          else setDisplay('√')
           break
         case '∛x':
-          if (display !== 0 && display !== 'Syntax error')
-            setDisplay(display + '∛')
+          
+          // console.log(howMany);
+          if (display !== 0 && display !== 'Syntax error'){
+            console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('∛' + display)
+            else 
+              setDisplay(display + '∛')
+          }
           else
             setDisplay('∛')
           break
@@ -110,7 +124,9 @@ function App() {
             setDisplay('^')
           break
         default:
-          if (isPosResult) {
+          let otherOp = ['×','+','-','÷']
+          let isOp = otherOp.map(op => op === e.target.textContent).length
+          if (isPosResult && isOp === 0) {
             setPrim(display)
             setDisplay(e.target.textContent)
             setIPR(false)
