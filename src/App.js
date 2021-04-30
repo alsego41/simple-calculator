@@ -19,24 +19,29 @@ function App() {
       }
       else {
         let tkd = transformarKeyDown(e.key)
+        // Operator
         if (tkd !== ' '){
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
               tkd : 
               display + tkd
           )
+          setIPR(false)
         } 
-        else
+        // Number
+        else{
           if (isPosResult) {
             setPrim(display)
             setDisplay(e.key)
             setIPR(false)
-          } else
-          setDisplay(
-            display === 0 || display === 'Syntax error' ? 
-              e.key : 
-              display + e.key
-          )
+          } 
+          else
+            setDisplay(
+              display === 0 || display === 'Syntax error' ? 
+                e.key : 
+                display + e.key
+            )
+        }
       }
     }
     else {
@@ -365,8 +370,8 @@ function App() {
       }
     }
     else {
-      let nose = cadena.filter(e => isNaN(Number(e)) === 'true')
-      if (nose.length === 0 && cadena.length > 1){
+      let newTry = cadena.filter(e => isNaN(Number(e)))
+      if (newTry.length === 0 && cadena.length > 1){
         cadena.push(NaN)
       }
     }
