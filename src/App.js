@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 function App() {
   const [ display, setDisplay ] = useState(0)
   const [ prim, setPrim ] = useState(0)
+  const [ isPosResult, setIPR ] = useState(false)
 
   const updDisplay = e => {
     if ( e.type === 'keydown') {
@@ -17,22 +18,34 @@ function App() {
         setDisplay(0)
       }
       else {
-      let tkd = transformarKeyDown(e.key)
-      if (tkd !== ' '){
-        setDisplay(
-          display === 0 || display === 'Syntax error' ? 
-            tkd : 
-            display + tkd
-        )
-      } else
-        setDisplay(
-          display === 0 || display === 'Syntax error' ? 
-            e.key : 
-            display + e.key
-        )
+        let tkd = transformarKeyDown(e.key)
+        // Operator
+        if (tkd !== ' '){
+          setDisplay(
+            display === 0 || display === 'Syntax error' ? 
+              tkd : 
+              display + tkd
+          )
+          setIPR(false)
+        } 
+        // Number
+        else{
+          if (isPosResult) {
+            setPrim(display)
+            setDisplay(e.key)
+            setIPR(false)
+          } 
+          else
+            setDisplay(
+              display === 0 || display === 'Syntax error' ? 
+                e.key : 
+                display + e.key
+            )
+        }
       }
     }
     else {
+      let howMany = separar(display).length
       switch (e.target.textContent){
         case 'AC':
           setDisplay(0)
@@ -66,34 +79,80 @@ function App() {
           deleteByOne()
           break
         case 'Π':
-          if (display !== 0)
+          if (display !== 0 && display !== 'Syntax error')
             setDisplay(display + '3.1415')
           else
             setDisplay('3.1415')
           break
         case 'x²':
-          setDisplay(display + '²')
+          if (display !== 0 && display !== 'Syntax error')
+            setDisplay(display + '²')
+          else
+            setDisplay('²')
           break
         case '√x':
-          // Add exception when a single number is displayed
-          if (display !== 0)
+          if (display !== 0 && display !== 'Syntax error'){
+            // console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('√' + display)
+            else
             setDisplay(display + '√')
-          else
-            setDisplay('√')
+          }
+          else setDisplay('√')
           break
         case '∛x':
-          if (display !== 0)
-            setDisplay(display + '∛')
+          if (display !== 0 && display !== 'Syntax error'){
+            // console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('∛' + display)
+            else 
+              setDisplay(display + '∛')
+          }
           else
             setDisplay('∛')
           break
+        case 'log':
+          if (display !== 0 && display !== 'Syntax error'){
+            // console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('log' + display)
+            else 
+              setDisplay(display + 'log')
+          }
+          else
+            setDisplay('log')
+          break
+        case 'ln':
+          if (display !== 0 && display !== 'Syntax error'){
+            // console.log(display);
+            if (howMany === 1 || howMany === 0)
+              setDisplay('ln' + display)
+            else 
+              setDisplay(display + 'ln')
+          }
+          else
+            setDisplay('ln')
+          break
         case 'xy':
-          setDisplay(display + '^')
+          if (display !== 0 && display !== 'Syntax error')
+            setDisplay(display + '^')
+          else
+            setDisplay('^')
           break
         case 'y':
-          setDisplay(display + '^')
+          if (display !== 0 && display !== 'Syntax error')
+            setDisplay(display + '^')
+          else
+            setDisplay('^')
           break
         default:
+          let otherOp = ['×','+','-','÷']
+          let isOp = otherOp.map(op => op === e.target.textContent).length
+          if (isPosResult && isOp === 0) {
+            setPrim(display)
+            setDisplay(e.target.textContent)
+            setIPR(false)
+          } else
           setDisplay(
             display === 0 || display === 'Syntax error' ? 
             e.target.textContent : 
@@ -107,9 +166,16 @@ function App() {
   const calcRevamped = () => {
     let arreglo = separar()
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
-    resolverPrts(openParPos, closeParPos, arreglo)
-    setPrim(display)
-    setDisplay(procesar(arreglo))
+    let matchingPrts = resolverPrts(openParPos, closeParPos, arreglo)
+    if (matchingPrts){
+      setPrim(display)
+      setDisplay(procesar(arreglo))
+      setIPR(true)
+    }
+    else {
+      setPrim(display)
+      setDisplay('Syntax error')
+    }
   }
 
   const getPosPrts = (arreglo) => {
@@ -130,16 +196,21 @@ function App() {
   const resolverPrts = (open, close, arreglo) => {
     let opL = open.length - 1
     let clL = close.length
-    for (let i = opL; i >= 0; i--){
-      for (let j = 0; j < clL; j++){
-        if (open[i] < close[j]){
-          let newArray = arreglo.slice(open[i] + 1, close[j])
-          let result = procesar(newArray)
-          arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
-          [open, close] = getPosPrts(arreglo)
+    if (open.length === close.length){
+      for (let i = opL; i >= 0; i--){
+        for (let j = 0; j < clL; j++){
+          if (open[i] < close[j]){
+            let newArray = arreglo.slice(open[i] + 1, close[j])
+            let result = procesar(newArray)
+            arreglo.splice( open[i], (close[j] - open[i]) + 1, result.toString() );
+            [open, close] = getPosPrts(arreglo)
+          }
         }
       }
+      return true
     }
+    else 
+      return false
   }
 
   const deleteByOne = () => {
@@ -169,13 +240,13 @@ function App() {
 
   const separar = () => {
     let cadena = display
-    let lista = ['²','√','×','÷','+','-','(',')','^']
+    let lista = operadores
     let arreglo = []
     let flag = false
     let acc = ''
     for (let i=0; i < cadena.length; i++){
       for (let j = 0; j < lista.length; j++){
-        if (cadena[i] === lista[j]){
+        if (cadena[i] === lista[j] && cadena[i-1] !== 'e'){
           arreglo.push(acc)
           arreglo.push(cadena[i])
           flag = true
@@ -201,11 +272,14 @@ function App() {
     return arreglo
   }
 
+  const operadores = ['(',')','²','^','√','∛','log','ln','×','÷','-','+']
+
   const procesar = (cadena) => {
-    let op = ['²','^','√','log','ln','×','÷','-','+']
+    let op = operadores
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
+          // console.log(cadena.map(n => removeSciNotation(n)))
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
           if (cadena.includes(NaN)){
             return 'Syntax error'
@@ -213,7 +287,9 @@ function App() {
         }
       }
     }
-    return Number(cadena)
+    let texto
+    isNaN(cadena) ? texto = 'Syntax error' : texto = Number(cadena)
+    return texto
   }
 
   const transformarCadena = (op, valor, vPos, cadena) => {
@@ -221,7 +297,7 @@ function App() {
     if (op === valor){
       switch (op) {
         case '²':
-          if (op !== cadena[vPos - 1]){
+          if (op !== cadena[vPos + 1]){
             res = Math.pow(Number(cadena[vPos - 1]), 2)
             cadena.splice(vPos - 1, 2, res)
           } else {
@@ -234,8 +310,15 @@ function App() {
           cadena.splice(vPos, 2, res)
           break
         case '∛':
-          res = Math.pow(Number(cadena[vPos + 1]), (1 / 3))
-          cadena.splice(vPos, 2, res)
+          if (cadena[vPos + 1] === '-'){
+            res = Number(0) - Number(cadena[vPos + 2])
+            res = Math.cbrt(Number(res))
+            cadena.splice(vPos, 3, res)
+          }
+          else {
+            res = Math.cbrt(Number(cadena[vPos + 1]))
+            cadena.splice(vPos, 2, res)
+          }
           break
         case '×':
           res = Number(cadena[vPos - 1]) * Number(cadena[vPos + 1])
@@ -264,23 +347,50 @@ function App() {
           cadena.splice(vPos - 1, 3, res)
           break
         case 'ln':
-          res = Math.log(Number(cadena[vPos + 1]))
-          cadena.splice(vPos, 2, res)
+          if (cadena[vPos + 1] === ''){
+            res = Math.log(Number(cadena[vPos + 2]))
+            cadena.splice(vPos, 3, res)
+          } else {
+            res = Math.log(Number(cadena[vPos + 1]))
+            cadena.splice(vPos, 2, res)
+          }
           break
         case 'log':
-          res = Math.log10(Number(cadena[vPos + 1]))
-          cadena.splice(vPos, 2, res)
+          if (cadena[vPos + 1] === ''){
+            res = Math.log(Number(cadena[vPos + 2]))
+            cadena.splice(vPos, 3, res)
+          } else {
+            res = Math.log10(Number(cadena[vPos + 1]))
+            cadena.splice(vPos, 2, res)
+          }
           break
         default:
+          console.log('llego a default');
+          cadena.splice(0, ...cadena , NaN)
           break;
+      }
+    }
+    else {
+      let newTry = cadena.filter(e => isNaN(Number(e)))
+      if (newTry.length === 0 && cadena.length > 1){
+        cadena.push(NaN)
       }
     }
     return cadena
   }
-
-  const regex = new RegExp('([0-9*/+.-])+')
-
+/*
+  const removeSciNotation = res => {
+    if (res.toString().includes('e')){
+      // console.log(res.toLocaleString('fullwide', {useGrouping:false}))
+      return res.toLocaleString('fullwide', {useGrouping:false})
+    }
+    else 
+      return res
+  }
+*/
+  
   document.onkeydown = e => {
+    const regex = new RegExp('([0-9*/+.-])+')
     if (
     (e.key.match(regex) && !(e.which >= 112 && e.which <= 123)) 
     || e.key === 'Backspace' 
