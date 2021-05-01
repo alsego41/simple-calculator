@@ -246,7 +246,7 @@ function App() {
     let acc = ''
     for (let i=0; i < cadena.length; i++){
       for (let j = 0; j < lista.length; j++){
-        if (cadena[i] === lista[j]){
+        if (cadena[i] === lista[j] && cadena[i-1] !== 'e'){
           arreglo.push(acc)
           arreglo.push(cadena[i])
           flag = true
@@ -279,6 +279,7 @@ function App() {
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
+          // console.log(cadena.map(n => removeSciNotation(n)))
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
           if (cadena.includes(NaN)){
             return 'Syntax error'
@@ -377,7 +378,16 @@ function App() {
     }
     return cadena
   }
-
+/*
+  const removeSciNotation = res => {
+    if (res.toString().includes('e')){
+      // console.log(res.toLocaleString('fullwide', {useGrouping:false}))
+      return res.toLocaleString('fullwide', {useGrouping:false})
+    }
+    else 
+      return res
+  }
+*/
   
   document.onkeydown = e => {
     const regex = new RegExp('([0-9*/+.-])+')
