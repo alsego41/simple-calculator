@@ -208,6 +208,7 @@ code {
   padding: 5px;
   margin: 20px;
   border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(49, 49, 49, 0.9);
 }
 
 .display {
@@ -356,11 +357,16 @@ a:hover {
 }
 
 h1 {
-  font-weight: 800;
+  font-weight: 900;
+  color: #313131;
 }
 
 p {
   font-weight: 600;
+}
+
+footer a {
+  color: #313131;
 }
 
 .notif-box {
