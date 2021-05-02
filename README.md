@@ -5,7 +5,6 @@ Now made with React!
 ## Known Issues
 
 1. Sliders lack compatibility in most browsers.
-2. When trying to get a result from a single number, the display will show a 0.
 
 ## Future Updates / Improvements
 
