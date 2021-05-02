@@ -6,8 +6,5 @@ Now made with React!
 
 ## Future Updates / Improvements
 
-- Can / should I disabled zoom function on mobiles?
-- Optionals buttons to add -> Ans, e, x!.
-- Add support for Mac paste -> cmd + v.
-- Enable mobile pasting.
-- Fixing of Known Issues.
+- Optional buttons to add -> Ans, e, x!.
+- Enable mobile and Mac pasting.
