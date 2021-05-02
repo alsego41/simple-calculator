@@ -83,12 +83,10 @@ function App() {
             setDisplay(display + '3.1415')
           else
             setDisplay('3.1415')
+          setIPR(false)
           break
         case 'x²':
-          if (display !== 0 && display !== 'Syntax error')
-            setDisplay(display + '²')
-          else
-            setDisplay('²')
+          continueOrNot('²')
           break
         case '√x':
           if (display !== 0 && display !== 'Syntax error'){
@@ -99,6 +97,7 @@ function App() {
             setDisplay(display + '√')
           }
           else setDisplay('√')
+        setIPR(false)
           break
         case '∛x':
           if (display !== 0 && display !== 'Syntax error'){
@@ -110,6 +109,7 @@ function App() {
           }
           else
             setDisplay('∛')
+          setIPR(false)
           break
         case 'log':
           if (display !== 0 && display !== 'Syntax error'){
@@ -121,6 +121,7 @@ function App() {
           }
           else
             setDisplay('log')
+          setIPR(false)
           break
         case 'ln':
           if (display !== 0 && display !== 'Syntax error'){
@@ -132,51 +133,47 @@ function App() {
           }
           else
             setDisplay('ln')
+          setIPR(false)
           break
         case 'xy':
-          if (display !== 0 && display !== 'Syntax error')
-            setDisplay(display + '^')
-          else
-            setDisplay('^')
+          continueOrNot('^')
           break
         case 'y':
-          if (display !== 0 && display !== 'Syntax error')
-            setDisplay(display + '^')
-          else
-            setDisplay('^')
+          continueOrNot('^')
           break
         default:
-          let otherOp = ['×','+','-','÷']
-          let isOp = otherOp.filter(op => op === e.target.textContent).length
-          // console.log(isOp);
-          if (isPosResult && isOp === 0) {
-            setPrim(display)
-            setDisplay(e.target.textContent)
-            setIPR(false)
-          } else if (isPosResult && isOp === 1){
-            setDisplay(
-              display === 0 || display === 'Syntax error' ? 
-              e.target.textContent : 
-              display + e.target.textContent
-            )
-            setIPR(false)
-          }
-          else {
-            setDisplay(
-              display === 0 || display === 'Syntax error' ? 
-              e.target.textContent : 
-              display + e.target.textContent
-            )
-          }
-          
+          continueOrNot(e.target.textContent) 
           break
       }
     }
   }
 
+  const continueOrNot = (input) => {
+    let isOp = operadores.filter(op => op === input).length
+    console.log(isOp);
+    if (isPosResult && isOp === 0) {
+      setPrim(display)
+      setDisplay(input)
+      setIPR(false)
+    } else if (isPosResult && isOp === 1){
+      setDisplay(
+        display === 0 || display === 'Syntax error' ? 
+        input : 
+        display + input
+      )
+      setIPR(false)
+    }
+    else {
+      setDisplay(
+        display === 0 || display === 'Syntax error' ? 
+        input : 
+        display + input
+      )
+    }
+  }
+
   const calcRevamped = () => {
     let arreglo = separar()
-    // console.log(arreglo);
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
     let matchingPrts = resolverPrts(openParPos, closeParPos, arreglo)
     if (matchingPrts){
@@ -245,7 +242,6 @@ function App() {
     let op = ' '
     if (whichOp >= 0){
       op = simbolosRaros[whichOp]
-      // console.log(`sr ${op}`);
     }
     return op
   }
@@ -256,7 +252,6 @@ function App() {
     let arreglo = []
     let flag = false
     let acc = ''
-    // console.log(cadena.length);
     for (let i=0; i < cadena.length; i++){
       for (let j = 0; j < lista.length; j++){
         if (cadena[i] === lista[j] && cadena[i-1] !== 'e'){
@@ -282,7 +277,6 @@ function App() {
         arreglo.splice(i, 1, 'ln', arreglo[i].substring(2))
       }
     }
-    // console.log(arreglo);
     return arreglo
   }
 
@@ -290,12 +284,9 @@ function App() {
 
   const procesar = (cadena) => {
     let op = operadores
-    // console.log(cadena);
-    // console.log(cadena.length);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
-          // console.log(cadena.map(n => removeSciNotation(n)))
           cadena = transformarCadena(op[i], cadena[j], j, cadena)
           if (cadena.includes(NaN)){
             return 'Syntax error'
@@ -394,16 +385,6 @@ function App() {
     }
     return cadena
   }
-/*
-  const removeSciNotation = res => {
-    if (res.toString().includes('e')){
-      // console.log(res.toLocaleString('fullwide', {useGrouping:false}))
-      return res.toLocaleString('fullwide', {useGrouping:false})
-    }
-    else 
-      return res
-  }
-*/
   
   document.onkeydown = e => {
     const regex = new RegExp('([0-9*/+.-])+')
@@ -420,6 +401,7 @@ function App() {
 
   const copyContent = () => {
     setDisplay(prim)
+    setIPR(false)
   }
 
   const copyClipboard = e => {
