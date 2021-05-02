@@ -4,8 +4,6 @@ Now made with React!
 
 ## Known Issues
 
-1. Sliders lack compatibility in most browsers.
-
 ## Future Updates / Improvements
 
 - Can / should I disabled zoom function on mobiles?
