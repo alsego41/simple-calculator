@@ -176,6 +176,7 @@ function App() {
 
   const calcRevamped = () => {
     let arreglo = separar()
+    // console.log(arreglo);
     let [ openParPos, closeParPos ] = getPosPrts(arreglo)
     let matchingPrts = resolverPrts(openParPos, closeParPos, arreglo)
     if (matchingPrts){
@@ -250,11 +251,12 @@ function App() {
   }
 
   const separar = () => {
-    let cadena = display
+    let cadena = display.toString()
     let lista = operadores
     let arreglo = []
     let flag = false
     let acc = ''
+    // console.log(cadena.length);
     for (let i=0; i < cadena.length; i++){
       for (let j = 0; j < lista.length; j++){
         if (cadena[i] === lista[j] && cadena[i-1] !== 'e'){
@@ -280,6 +282,7 @@ function App() {
         arreglo.splice(i, 1, 'ln', arreglo[i].substring(2))
       }
     }
+    // console.log(arreglo);
     return arreglo
   }
 
@@ -287,6 +290,8 @@ function App() {
 
   const procesar = (cadena) => {
     let op = operadores
+    // console.log(cadena);
+    // console.log(cadena.length);
     while (cadena.length > 1){
       for (let i = 0; i < op.length; i++){
         for (let j = 0; j < cadena.length; j++){
