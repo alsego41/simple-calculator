@@ -147,17 +147,28 @@ function App() {
           break
         default:
           let otherOp = ['×','+','-','÷']
-          let isOp = otherOp.map(op => op === e.target.textContent).length
+          let isOp = otherOp.filter(op => op === e.target.textContent).length
+          // console.log(isOp);
           if (isPosResult && isOp === 0) {
             setPrim(display)
             setDisplay(e.target.textContent)
             setIPR(false)
-          } else
-          setDisplay(
-            display === 0 || display === 'Syntax error' ? 
-            e.target.textContent : 
-            display + e.target.textContent
-          )
+          } else if (isPosResult && isOp === 1){
+            setDisplay(
+              display === 0 || display === 'Syntax error' ? 
+              e.target.textContent : 
+              display + e.target.textContent
+            )
+            setIPR(false)
+          }
+          else {
+            setDisplay(
+              display === 0 || display === 'Syntax error' ? 
+              e.target.textContent : 
+              display + e.target.textContent
+            )
+          }
+          
           break
       }
     }
