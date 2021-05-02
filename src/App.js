@@ -150,7 +150,7 @@ function App() {
 
   const continueOrNot = (input) => {
     let isOp = operadores.filter(op => op === input).length
-    console.log(isOp);
+    // console.log(isOp);
     if (isPosResult && isOp === 0) {
       setPrim(display)
       setDisplay(input)
